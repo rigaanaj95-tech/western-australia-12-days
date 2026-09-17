@@ -1,0 +1,2863 @@
+{
+  "$schema": "./schemas/trip-data.schema.json",
+  "schemaVersion": "2.0-lite",
+  "config": {
+    "schemaVersion": "1.0.0",
+    "modules": {
+      "flights": true,
+      "overview": true,
+      "itinerary": true,
+      "todo": true,
+      "driving": true,
+      "ledger": true
+    },
+    "language": "zh-CN",
+    "persistence": {
+      "mode": "local"
+    }
+  },
+  "metadata": {
+    "tripId": "wa-north-20260923",
+    "title": "西澳北线 12 日自驾",
+    "language": "zh-CN",
+    "assets": {
+      "routeMaps": [
+        "assets/maps/templates/template-10-broad-riverland.webp"
+      ]
+    },
+    "sourceUrl": "https://www.pitravel.cn/web/journey/detail/20401646"
+  },
+  "trip": {
+    "status": "draft",
+    "startDate": "2026-09-23",
+    "endDate": "2026-10-04",
+    "dayCount": 12,
+    "nightCountAway": 11,
+    "countries": [
+      {
+        "code": "AU",
+        "name": "Australia",
+        "nameZh": "澳大利亚"
+      }
+    ],
+    "primaryDestinationCountries": [
+      "AU"
+    ],
+    "citiesAndAreas": [
+      "珀斯",
+      "朱里恩湾",
+      "杰拉尔顿",
+      "卡尔巴里",
+      "卡那封",
+      "埃克斯茅斯",
+      "鲨鱼湾",
+      "罗特内斯特岛"
+    ],
+    "routeSummary": "珀斯 → 尖峰石阵 → 粉红湖 → 卡尔巴里 → 埃克斯茅斯 → 鲨鱼湾 → 珀斯",
+    "groupSize": null
+  },
+  "flightJourneys": [
+    {
+      "id": "outbound",
+      "title": "去程 · 上海 → 珀斯",
+      "direction": "outbound",
+      "date": "2026-09-23",
+      "notes": "吉隆坡中转 7 小时；原行程注明行李直达、无需过境签。"
+    },
+    {
+      "id": "inbound",
+      "title": "回程 · 珀斯 → 杭州",
+      "direction": "return",
+      "date": "2026-10-04",
+      "notes": "新加坡中转 5 小时 35 分钟；原行程注明行李直达、无需过境签。"
+    }
+  ],
+  "flights": [
+    {
+      "id": "flight-d7331",
+      "journeyId": "outbound",
+      "sequence": 1,
+      "flightNumber": "D7331",
+      "airline": {
+        "nameZh": "马来西亚亚航长途",
+        "name": "马来西亚亚航长途"
+      },
+      "departure": {
+        "airportCode": "PVG",
+        "city": "上海",
+        "airportName": "上海浦东国际机场",
+        "terminal": "T2",
+        "date": "2026-09-23",
+        "time": "01:35",
+        "utcOffset": "+08:00"
+      },
+      "arrival": {
+        "airportCode": "KUL",
+        "city": "吉隆坡",
+        "airportName": "吉隆坡国际机场",
+        "terminal": "T2",
+        "date": "2026-09-23",
+        "time": "07:15",
+        "utcOffset": "+08:00"
+      },
+      "status": "已出票",
+      "bookings": [
+        {
+          "passenger": "LIU/KEKE",
+          "reference": "AKDIRB"
+        }
+      ],
+      "notes": "LIU/KEKE · 预订号 AKDIRB"
+    },
+    {
+      "id": "flight-ak606",
+      "journeyId": "outbound",
+      "sequence": 2,
+      "flightNumber": "AK606",
+      "airline": {
+        "nameZh": "马来西亚亚航",
+        "name": "马来西亚亚航"
+      },
+      "departure": {
+        "airportCode": "KUL",
+        "city": "吉隆坡",
+        "airportName": "吉隆坡国际机场",
+        "terminal": "T2",
+        "date": "2026-09-23",
+        "time": "14:15",
+        "utcOffset": "+08:00"
+      },
+      "arrival": {
+        "airportCode": "PER",
+        "city": "珀斯",
+        "airportName": "珀斯机场",
+        "terminal": "T1",
+        "date": "2026-09-23",
+        "time": "19:50",
+        "utcOffset": "+08:00"
+      },
+      "status": "已出票",
+      "bookings": [
+        {
+          "passenger": "LIU/KEKE",
+          "reference": "AKDIRB"
+        }
+      ],
+      "notes": "LIU/KEKE · 预订号 AKDIRB"
+    },
+    {
+      "id": "flight-tr029",
+      "journeyId": "inbound",
+      "sequence": 1,
+      "flightNumber": "TR029",
+      "airline": {
+        "nameZh": "酷航",
+        "name": "酷航"
+      },
+      "departure": {
+        "airportCode": "PER",
+        "city": "珀斯",
+        "airportName": "珀斯机场",
+        "terminal": "T1",
+        "date": "2026-10-04",
+        "time": "05:35",
+        "utcOffset": "+08:00"
+      },
+      "arrival": {
+        "airportCode": "SIN",
+        "city": "新加坡",
+        "airportName": "新加坡樟宜机场",
+        "terminal": "T1",
+        "date": "2026-10-04",
+        "time": "10:55",
+        "utcOffset": "+08:00"
+      },
+      "status": "已出票",
+      "bookings": [
+        {
+          "passenger": "LIU/KEKE",
+          "reference": "B7KQUS"
+        },
+        {
+          "passenger": "ZHANG/TIANNING",
+          "reference": "WEEQMQ"
+        }
+      ],
+      "notes": "LIU/KEKE · 预订号 B7KQUS；ZHANG/TIANNING · 预订号 WEEQMQ"
+    },
+    {
+      "id": "flight-tr188",
+      "journeyId": "inbound",
+      "sequence": 2,
+      "flightNumber": "TR188",
+      "airline": {
+        "nameZh": "酷航",
+        "name": "酷航"
+      },
+      "departure": {
+        "airportCode": "SIN",
+        "city": "新加坡",
+        "airportName": "新加坡樟宜机场",
+        "terminal": "T1",
+        "date": "2026-10-04",
+        "time": "16:30",
+        "utcOffset": "+08:00"
+      },
+      "arrival": {
+        "airportCode": "HGH",
+        "city": "杭州",
+        "airportName": "杭州萧山国际机场",
+        "terminal": "T4",
+        "date": "2026-10-04",
+        "time": "21:45",
+        "utcOffset": "+08:00"
+      },
+      "status": "已出票",
+      "bookings": [
+        {
+          "passenger": "LIU/KEKE",
+          "reference": "B7KQUS"
+        },
+        {
+          "passenger": "ZHANG/TIANNING",
+          "reference": "WEEQMQ"
+        }
+      ],
+      "notes": "LIU/KEKE · 预订号 B7KQUS；ZHANG/TIANNING · 预订号 WEEQMQ"
+    }
+  ],
+  "accommodations": [],
+  "groundTransport": {
+    "rentalCar": {
+      "company": "待补充",
+      "rentalPeriodDays": 9,
+      "vehicle": {
+        "example": "Mitsubishi ASX 或相似车型",
+        "class": "Intermediate · 自动挡 · 5 座 · 5 门 · 空调 · 汽油"
+      },
+      "unlimitedKilometers": null,
+      "price": {
+        "currency": "AUD",
+        "payAtCounter": null
+      },
+      "insurance": [
+        "保险条款待补充"
+      ],
+      "pickup": {
+        "date": "2026-09-24",
+        "time": "09:00",
+        "location": "Downtown",
+        "address": "160 Adelaide TCE, Perth, WA 6000",
+        "utcOffset": "+08:00"
+      },
+      "dropoff": {
+        "date": "2026-10-03",
+        "time": "09:00",
+        "location": "Downtown",
+        "address": "160 Adelaide TCE, Perth, WA 6000",
+        "timeZoneLabel": "珀斯当地时间",
+        "vehicleReturnPoint": "160 Adelaide TCE, Perth, WA 6000",
+        "deadlineWarning": "订单还车时间为 10 月 3 日 09:00。原分享行程 10 月 2 日的租车行停靠已调整至 10 月 3 日。",
+        "recommendedArrivalTime": null,
+        "utcOffset": "+08:00"
+      },
+      "notes": "准时到达，以免错失车辆。车行品牌、费用、保险和里程限制未在截图中显示，待补充。"
+    },
+    "rentalChecklist": [
+      "9 月 24 日 09:00 准时到 Downtown 取车。",
+      "10 月 3 日 09:00 前还车至 160 Adelaide TCE, Perth, WA 6000。"
+    ],
+    "drivingNotes": [],
+    "drivingReferenceLinks": [],
+    "plannedRoadLegs": [],
+    "publicTransitAndRail": []
+  },
+  "days": [
+    {
+      "id": "day-1",
+      "day": 1,
+      "date": "2026-09-23",
+      "title": "启程 · 上海经吉隆坡抵达珀斯",
+      "locations": [
+        "珀斯机场",
+        "珀斯"
+      ],
+      "schedule": [
+        {
+          "id": "d1-s1",
+          "time": "01:35",
+          "type": "flight",
+          "text": "D7331 · 上海浦东 T2 → 吉隆坡 T2，07:15 抵达"
+        },
+        {
+          "id": "d1-s2",
+          "time": "14:15",
+          "type": "flight",
+          "text": "AK606 · 吉隆坡 T2 → 珀斯 T1，19:50 抵达"
+        },
+        {
+          "id": "d1-s3",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：Criterion Hotel Perth",
+          "placeId": "perth"
+        }
+      ]
+    },
+    {
+      "id": "day-2",
+      "day": 2,
+      "date": "2026-09-24",
+      "title": "北线启程 · 国王公园与尖峰石阵",
+      "locations": [
+        "珀斯",
+        "Downtown 租车点",
+        "Kings Park 国王公园",
+        "The Pinnacles Desert 尖峰石阵",
+        "朱里恩湾"
+      ],
+      "schedule": [
+        {
+          "id": "d2-s1",
+          "time": "09:00",
+          "type": "drive",
+          "text": "Downtown 取车 · Mitsubishi ASX 或相似车型",
+          "placeId": "rental"
+        },
+        {
+          "id": "d2-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "Kings Park 国王公园",
+          "placeId": "kings"
+        },
+        {
+          "id": "d2-s3",
+          "time": "",
+          "type": "attraction",
+          "text": "尖峰石阵：数千根石灰岩柱矗立金黄沙漠；原资料建议日落时分拍照，预留 1.5 小时。",
+          "placeId": "pinnacles"
+        },
+        {
+          "id": "d2-s4",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：Jurien Bay Motel Apartments",
+          "placeId": "jurien"
+        }
+      ]
+    },
+    {
+      "id": "day-3",
+      "day": 3,
+      "date": "2026-09-25",
+      "title": "粉红湖与卡尔巴里",
+      "locations": [
+        "朱里恩湾",
+        "杰拉尔顿",
+        "Hutt Lagoon 粉红湖",
+        "卡尔巴里"
+      ],
+      "schedule": [
+        {
+          "id": "d3-s1",
+          "time": "",
+          "type": "drive",
+          "text": "朱里恩湾出发",
+          "placeId": "jurien"
+        },
+        {
+          "id": "d3-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "杰拉尔顿",
+          "placeId": "geraldton"
+        },
+        {
+          "id": "d3-s3",
+          "time": "",
+          "type": "attraction",
+          "text": "Hutt Lagoon 粉红湖：原资料建议正午观赏，穿拖鞋方便走近湖边。",
+          "placeId": "hutt"
+        },
+        {
+          "id": "d3-s4",
+          "time": "",
+          "type": "drive",
+          "text": "前往卡尔巴里",
+          "placeId": "kalbarri"
+        }
+      ]
+    },
+    {
+      "id": "day-4",
+      "day": 4,
+      "date": "2026-09-26",
+      "title": "卡尔巴里国家公园 → 卡那封",
+      "locations": [
+        "卡尔巴里",
+        "Kalbarri National Park",
+        "卡那封"
+      ],
+      "schedule": [
+        {
+          "id": "d4-s1",
+          "time": "",
+          "type": "attraction",
+          "text": "Kalbarri National Park：红色砂岩峡谷与海岸线；原资料标注每车门票 17 澳元，备足饮水。",
+          "placeId": "kalbarri-np"
+        },
+        {
+          "id": "d4-s2",
+          "time": "",
+          "type": "drive",
+          "text": "前往卡那封 · 原行程约 435 千米 / 5 小时 5 分钟",
+          "placeId": "carnarvon"
+        },
+        {
+          "id": "d4-s3",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：Hospitality Carnarvon, SureStay Collection by Best Western",
+          "placeId": "carnarvon"
+        }
+      ]
+    },
+    {
+      "id": "day-5",
+      "day": 5,
+      "date": "2026-09-27",
+      "title": "卡那封 → Coral Bay → 埃克斯茅斯",
+      "locations": [
+        "卡那封",
+        "Coral Bay",
+        "埃克斯茅斯"
+      ],
+      "schedule": [
+        {
+          "id": "d5-s1",
+          "time": "",
+          "type": "drive",
+          "text": "卡那封出发",
+          "placeId": "carnarvon"
+        },
+        {
+          "id": "d5-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "Coral Bay",
+          "placeId": "coral"
+        },
+        {
+          "id": "d5-s3",
+          "time": "",
+          "type": "drive",
+          "text": "前往埃克斯茅斯",
+          "placeId": "exmouth"
+        },
+        {
+          "id": "d5-s4",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：珀索特度假酒店",
+          "placeId": "exmouth"
+        }
+      ]
+    },
+    {
+      "id": "day-6",
+      "day": 6,
+      "date": "2026-09-28",
+      "title": "埃克斯茅斯浮潜",
+      "locations": [
+        "埃克斯茅斯",
+        "Cape Range National Park"
+      ],
+      "schedule": [
+        {
+          "id": "d6-s1",
+          "time": "",
+          "type": "attraction",
+          "text": "浮潜 · 具体预订与集合时间待补充",
+          "placeId": "exmouth"
+        },
+        {
+          "id": "d6-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "Cape Range National Park",
+          "placeId": "cape-range"
+        },
+        {
+          "id": "d6-s3",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：珀索特度假酒店",
+          "placeId": "exmouth"
+        }
+      ]
+    },
+    {
+      "id": "day-7",
+      "day": 7,
+      "date": "2026-09-29",
+      "title": "埃克斯茅斯回程赶路",
+      "locations": [
+        "埃克斯茅斯",
+        "卡那封"
+      ],
+      "schedule": [
+        {
+          "id": "d7-s1",
+          "time": "",
+          "type": "drive",
+          "text": "埃克斯茅斯 → 卡那封 · 原行程约 365 千米 / 3 小时 55 分钟",
+          "placeId": "carnarvon"
+        },
+        {
+          "id": "d7-s2",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：Hospitality Carnarvon, SureStay Collection by Best Western",
+          "placeId": "carnarvon"
+        }
+      ]
+    },
+    {
+      "id": "day-8",
+      "day": 8,
+      "date": "2026-09-30",
+      "title": "Shark Bay 鲨鱼湾",
+      "locations": [
+        "卡那封",
+        "鲨鱼湾机场",
+        "Little Lagoon",
+        "Nanga Shark Bay Caravan Park"
+      ],
+      "schedule": [
+        {
+          "id": "d8-s1",
+          "time": "",
+          "type": "attraction",
+          "text": "鲨鱼湾机场（保留原行程地点）",
+          "placeId": "shark-airport"
+        },
+        {
+          "id": "d8-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "Little Lagoon",
+          "placeId": "little-lagoon"
+        },
+        {
+          "id": "d8-s3",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：Nanga Shark Bay Caravan Park",
+          "placeId": "nanga"
+        }
+      ]
+    },
+    {
+      "id": "day-9",
+      "day": 9,
+      "date": "2026-10-01",
+      "title": "Monkey Mia 看海豚",
+      "locations": [
+        "Nanga Shark Bay Caravan Park",
+        "Monkey Mia",
+        "Shell Beach",
+        "德纳姆",
+        "杰拉尔顿"
+      ],
+      "schedule": [
+        {
+          "id": "d9-s1",
+          "time": "",
+          "type": "attraction",
+          "text": "Monkey Mia 看海豚 · 具体时间待补充",
+          "placeId": "monkey"
+        },
+        {
+          "id": "d9-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "Shell Beach",
+          "placeId": "shell"
+        },
+        {
+          "id": "d9-s3",
+          "time": "",
+          "type": "restaurant",
+          "text": "德纳姆吃饭",
+          "placeId": "denham"
+        },
+        {
+          "id": "d9-s4",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：The African Reef Beach Resort，杰拉尔顿",
+          "placeId": "geraldton"
+        }
+      ]
+    },
+    {
+      "id": "day-10",
+      "day": 10,
+      "date": "2026-10-02",
+      "title": "返回珀斯 · 白沙丘",
+      "locations": [
+        "杰拉尔顿",
+        "Cervantes",
+        "Lancelin Sand Dunes",
+        "Subiaco 珀斯"
+      ],
+      "schedule": [
+        {
+          "id": "d10-s1",
+          "time": "",
+          "type": "attraction",
+          "text": "Cervantes",
+          "placeId": "cervantes"
+        },
+        {
+          "id": "d10-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "Lancelin Sand Dunes：滑沙 / ATV 越野；原资料提醒佩戴墨镜、做好防晒。",
+          "placeId": "lancelin"
+        },
+        {
+          "id": "d10-s3",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：Vibe Hotel Subiaco Perth",
+          "placeId": "subiaco"
+        },
+        {
+          "id": "d10-s4",
+          "time": "",
+          "type": "note",
+          "text": "租车订单还车时间为明天 09:00，已从今日安排中移出。"
+        }
+      ]
+    },
+    {
+      "id": "day-11",
+      "day": 11,
+      "date": "2026-10-03",
+      "title": "还车 · 罗特内斯特岛",
+      "locations": [
+        "Subiaco 珀斯",
+        "Downtown 租车点",
+        "罗特内斯特岛"
+      ],
+      "schedule": [
+        {
+          "id": "d11-s1",
+          "time": "09:00",
+          "type": "return",
+          "text": "Downtown 还车 · 160 Adelaide TCE, Perth, WA 6000",
+          "placeId": "rental"
+        },
+        {
+          "id": "d11-s2",
+          "time": "",
+          "type": "attraction",
+          "text": "罗特内斯特岛（老鼠岛）· 船票与出发时间待补充",
+          "placeId": "rottnest"
+        },
+        {
+          "id": "d11-s3",
+          "time": "",
+          "type": "check-in",
+          "text": "住宿：Vibe Hotel Subiaco Perth",
+          "placeId": "subiaco"
+        }
+      ]
+    },
+    {
+      "id": "day-12",
+      "day": 12,
+      "date": "2026-10-04",
+      "title": "返程 · 珀斯经新加坡回杭州",
+      "locations": [
+        "Subiaco 珀斯",
+        "珀斯机场"
+      ],
+      "schedule": [
+        {
+          "id": "d12-s1",
+          "time": "05:35",
+          "type": "flight",
+          "text": "TR029 · 珀斯 T1 → 新加坡樟宜 T1，10:55 抵达"
+        },
+        {
+          "id": "d12-s2",
+          "time": "16:30",
+          "type": "flight",
+          "text": "TR188 · 新加坡樟宜 T1 → 杭州萧山 T4，21:45 抵达"
+        }
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "per-airport",
+      "name": "珀斯机场",
+      "nameZh": "珀斯机场",
+      "latitude": -31.94,
+      "longitude": 115.97,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "perth",
+      "name": "珀斯",
+      "nameZh": "珀斯",
+      "latitude": -31.95,
+      "longitude": 115.86,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "rental",
+      "name": "Downtown 租车点",
+      "nameZh": "Downtown 租车点",
+      "latitude": -31.961,
+      "longitude": 115.871,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "kings",
+      "name": "Kings Park 国王公园",
+      "nameZh": "Kings Park 国王公园",
+      "latitude": -31.96,
+      "longitude": 115.83,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "pinnacles",
+      "name": "The Pinnacles Desert 尖峰石阵",
+      "nameZh": "The Pinnacles Desert 尖峰石阵",
+      "latitude": -30.6,
+      "longitude": 115.16,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "jurien",
+      "name": "朱里恩湾",
+      "nameZh": "朱里恩湾",
+      "latitude": -30.3,
+      "longitude": 115.04,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "geraldton",
+      "name": "杰拉尔顿",
+      "nameZh": "杰拉尔顿",
+      "latitude": -28.78,
+      "longitude": 114.61,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "hutt",
+      "name": "Hutt Lagoon 粉红湖",
+      "nameZh": "Hutt Lagoon 粉红湖",
+      "latitude": -28.18,
+      "longitude": 114.25,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "kalbarri",
+      "name": "卡尔巴里",
+      "nameZh": "卡尔巴里",
+      "latitude": -27.71,
+      "longitude": 114.17,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "kalbarri-np",
+      "name": "Kalbarri National Park",
+      "nameZh": "Kalbarri National Park",
+      "latitude": -27.65,
+      "longitude": 114.44,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "carnarvon",
+      "name": "卡那封",
+      "nameZh": "卡那封",
+      "latitude": -24.88,
+      "longitude": 113.66,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "coral",
+      "name": "Coral Bay",
+      "nameZh": "Coral Bay",
+      "latitude": -23.14,
+      "longitude": 113.77,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "exmouth",
+      "name": "埃克斯茅斯",
+      "nameZh": "埃克斯茅斯",
+      "latitude": -21.94,
+      "longitude": 114.13,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "cape-range",
+      "name": "Cape Range National Park",
+      "nameZh": "Cape Range National Park",
+      "latitude": -22.1,
+      "longitude": 113.96,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "shark-airport",
+      "name": "鲨鱼湾机场",
+      "nameZh": "鲨鱼湾机场",
+      "latitude": -25.89,
+      "longitude": 113.58,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "little-lagoon",
+      "name": "Little Lagoon",
+      "nameZh": "Little Lagoon",
+      "latitude": -25.9,
+      "longitude": 113.55,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "nanga",
+      "name": "Nanga Shark Bay Caravan Park",
+      "nameZh": "Nanga Shark Bay Caravan Park",
+      "latitude": -26.25,
+      "longitude": 113.8,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "monkey",
+      "name": "Monkey Mia",
+      "nameZh": "Monkey Mia",
+      "latitude": -25.79,
+      "longitude": 113.72,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "shell",
+      "name": "Shell Beach",
+      "nameZh": "Shell Beach",
+      "latitude": -26.21,
+      "longitude": 113.77,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "denham",
+      "name": "德纳姆",
+      "nameZh": "德纳姆",
+      "latitude": -25.93,
+      "longitude": 113.53,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "cervantes",
+      "name": "Cervantes",
+      "nameZh": "Cervantes",
+      "latitude": -30.5,
+      "longitude": 115.07,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "lancelin",
+      "name": "Lancelin Sand Dunes",
+      "nameZh": "Lancelin Sand Dunes",
+      "latitude": -31,
+      "longitude": 115.33,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "subiaco",
+      "name": "Subiaco 珀斯",
+      "nameZh": "Subiaco 珀斯",
+      "latitude": -31.95,
+      "longitude": 115.82,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    },
+    {
+      "id": "rottnest",
+      "name": "罗特内斯特岛",
+      "nameZh": "罗特内斯特岛",
+      "latitude": -32,
+      "longitude": 115.52,
+      "countryCode": "AU",
+      "mapRegionId": "western-australia",
+      "coordinateNote": "用于示意地图的近似位置，不用于精确导航"
+    }
+  ],
+  "restaurants": [],
+  "bookingsAndTickets": [],
+  "ticketPlanning": {
+    "statusStorage": "local",
+    "statusStorageNote": "门票状态默认只保存在当前浏览器。",
+    "items": []
+  },
+  "preTrip": {
+    "packingItems": [
+      {
+        "id": "todo-1",
+        "text": "尖峰石阵预留 1.5 小时慢游拍照",
+        "completed": false
+      },
+      {
+        "id": "todo-2",
+        "text": "粉红湖穿拖鞋，方便走近湖边",
+        "completed": false
+      },
+      {
+        "id": "todo-3",
+        "text": "卡尔巴里国家公园备足饮水",
+        "completed": false
+      },
+      {
+        "id": "todo-4",
+        "text": "兰瑟琳沙丘佩戴墨镜、做好防晒",
+        "completed": false
+      },
+      {
+        "id": "todo-5",
+        "text": "按租车订单准时到达，以免错失车辆",
+        "completed": false
+      }
+    ],
+    "preparationsExplicitlyMentioned": [],
+    "missingNote": ""
+  },
+  "mapLinks": {
+    "providedGoogleMapsLinks": [],
+    "note": "",
+    "cityLevelNavigationDisabled": false,
+    "navigationPolicy": {
+      "noNavigationTypes": [
+        "flight",
+        "note",
+        "rest"
+      ],
+      "selfNavigationTypes": [
+        "drive",
+        "return",
+        "transfer",
+        "check-in",
+        "check-out",
+        "restaurant",
+        "attraction",
+        "walk",
+        "hike"
+      ]
+    },
+    "navigationPlaces": []
+  },
+  "issuesAndUncertainties": [
+    "年份按 2026 年生成，与资料日期及星期一致。",
+    "住宿按用户要求暂不补充，保留分享行程已有名称。",
+    "租车品牌、费用、保险和里程限制待补充。",
+    "浮潜、海豚活动与罗特内斯特岛船票的预订和具体时间待补充。",
+    "地图使用地点的近似位置，只表达相对方位及路线，不代表导航路线。"
+  ],
+  "map": {
+    "schemaVersion": "1.0-lite",
+    "mapMode": "template-auto",
+    "templateId": "auto",
+    "disclaimer": "本图仅表达地点的相对方位与路线顺序，不代表真实比例或精确地理边界。",
+    "places": [
+      {
+        "id": "per-airport",
+        "name": "珀斯机场",
+        "nameZh": "珀斯机场",
+        "latitude": -31.94,
+        "longitude": 115.97,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -31.94,
+          "lng": 115.97
+        }
+      },
+      {
+        "id": "perth",
+        "name": "珀斯",
+        "nameZh": "珀斯",
+        "latitude": -31.95,
+        "longitude": 115.86,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -31.95,
+          "lng": 115.86
+        }
+      },
+      {
+        "id": "rental",
+        "name": "Downtown 租车点",
+        "nameZh": "Downtown 租车点",
+        "latitude": -31.961,
+        "longitude": 115.871,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -31.961,
+          "lng": 115.871
+        }
+      },
+      {
+        "id": "kings",
+        "name": "Kings Park 国王公园",
+        "nameZh": "Kings Park 国王公园",
+        "latitude": -31.96,
+        "longitude": 115.83,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -31.96,
+          "lng": 115.83
+        }
+      },
+      {
+        "id": "pinnacles",
+        "name": "The Pinnacles Desert 尖峰石阵",
+        "nameZh": "The Pinnacles Desert 尖峰石阵",
+        "latitude": -30.6,
+        "longitude": 115.16,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -30.6,
+          "lng": 115.16
+        }
+      },
+      {
+        "id": "jurien",
+        "name": "朱里恩湾",
+        "nameZh": "朱里恩湾",
+        "latitude": -30.3,
+        "longitude": 115.04,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -30.3,
+          "lng": 115.04
+        }
+      },
+      {
+        "id": "geraldton",
+        "name": "杰拉尔顿",
+        "nameZh": "杰拉尔顿",
+        "latitude": -28.78,
+        "longitude": 114.61,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -28.78,
+          "lng": 114.61
+        }
+      },
+      {
+        "id": "hutt",
+        "name": "Hutt Lagoon 粉红湖",
+        "nameZh": "Hutt Lagoon 粉红湖",
+        "latitude": -28.18,
+        "longitude": 114.25,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -28.18,
+          "lng": 114.25
+        }
+      },
+      {
+        "id": "kalbarri",
+        "name": "卡尔巴里",
+        "nameZh": "卡尔巴里",
+        "latitude": -27.71,
+        "longitude": 114.17,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -27.71,
+          "lng": 114.17
+        }
+      },
+      {
+        "id": "kalbarri-np",
+        "name": "Kalbarri National Park",
+        "nameZh": "Kalbarri National Park",
+        "latitude": -27.65,
+        "longitude": 114.44,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -27.65,
+          "lng": 114.44
+        }
+      },
+      {
+        "id": "carnarvon",
+        "name": "卡那封",
+        "nameZh": "卡那封",
+        "latitude": -24.88,
+        "longitude": 113.66,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -24.88,
+          "lng": 113.66
+        }
+      },
+      {
+        "id": "coral",
+        "name": "Coral Bay",
+        "nameZh": "Coral Bay",
+        "latitude": -23.14,
+        "longitude": 113.77,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -23.14,
+          "lng": 113.77
+        }
+      },
+      {
+        "id": "exmouth",
+        "name": "埃克斯茅斯",
+        "nameZh": "埃克斯茅斯",
+        "latitude": -21.94,
+        "longitude": 114.13,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -21.94,
+          "lng": 114.13
+        }
+      },
+      {
+        "id": "cape-range",
+        "name": "Cape Range National Park",
+        "nameZh": "Cape Range National Park",
+        "latitude": -22.1,
+        "longitude": 113.96,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -22.1,
+          "lng": 113.96
+        }
+      },
+      {
+        "id": "shark-airport",
+        "name": "鲨鱼湾机场",
+        "nameZh": "鲨鱼湾机场",
+        "latitude": -25.89,
+        "longitude": 113.58,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -25.89,
+          "lng": 113.58
+        }
+      },
+      {
+        "id": "little-lagoon",
+        "name": "Little Lagoon",
+        "nameZh": "Little Lagoon",
+        "latitude": -25.9,
+        "longitude": 113.55,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -25.9,
+          "lng": 113.55
+        }
+      },
+      {
+        "id": "nanga",
+        "name": "Nanga Shark Bay Caravan Park",
+        "nameZh": "Nanga Shark Bay Caravan Park",
+        "latitude": -26.25,
+        "longitude": 113.8,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -26.25,
+          "lng": 113.8
+        }
+      },
+      {
+        "id": "monkey",
+        "name": "Monkey Mia",
+        "nameZh": "Monkey Mia",
+        "latitude": -25.79,
+        "longitude": 113.72,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -25.79,
+          "lng": 113.72
+        }
+      },
+      {
+        "id": "shell",
+        "name": "Shell Beach",
+        "nameZh": "Shell Beach",
+        "latitude": -26.21,
+        "longitude": 113.77,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -26.21,
+          "lng": 113.77
+        }
+      },
+      {
+        "id": "denham",
+        "name": "德纳姆",
+        "nameZh": "德纳姆",
+        "latitude": -25.93,
+        "longitude": 113.53,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -25.93,
+          "lng": 113.53
+        }
+      },
+      {
+        "id": "cervantes",
+        "name": "Cervantes",
+        "nameZh": "Cervantes",
+        "latitude": -30.5,
+        "longitude": 115.07,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -30.5,
+          "lng": 115.07
+        }
+      },
+      {
+        "id": "lancelin",
+        "name": "Lancelin Sand Dunes",
+        "nameZh": "Lancelin Sand Dunes",
+        "latitude": -31,
+        "longitude": 115.33,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -31,
+          "lng": 115.33
+        }
+      },
+      {
+        "id": "subiaco",
+        "name": "Subiaco 珀斯",
+        "nameZh": "Subiaco 珀斯",
+        "latitude": -31.95,
+        "longitude": 115.82,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -31.95,
+          "lng": 115.82
+        }
+      },
+      {
+        "id": "rottnest",
+        "name": "罗特内斯特岛",
+        "nameZh": "罗特内斯特岛",
+        "latitude": -32,
+        "longitude": 115.52,
+        "countryCode": "AU",
+        "mapRegionId": "western-australia",
+        "coordinateNote": "用于示意地图的近似位置，不用于精确导航",
+        "geo": {
+          "lat": -32,
+          "lng": 115.52
+        }
+      }
+    ],
+    "routes": [
+      {
+        "id": "route-day-1",
+        "day": 1,
+        "placeIds": [
+          "per-airport",
+          "perth"
+        ]
+      },
+      {
+        "id": "route-day-2",
+        "day": 2,
+        "placeIds": [
+          "perth",
+          "rental",
+          "kings",
+          "pinnacles",
+          "jurien"
+        ]
+      },
+      {
+        "id": "route-day-3",
+        "day": 3,
+        "placeIds": [
+          "jurien",
+          "geraldton",
+          "hutt",
+          "kalbarri"
+        ]
+      },
+      {
+        "id": "route-day-4",
+        "day": 4,
+        "placeIds": [
+          "kalbarri",
+          "kalbarri-np",
+          "carnarvon"
+        ]
+      },
+      {
+        "id": "route-day-5",
+        "day": 5,
+        "placeIds": [
+          "carnarvon",
+          "coral",
+          "exmouth"
+        ]
+      },
+      {
+        "id": "route-day-6",
+        "day": 6,
+        "placeIds": [
+          "exmouth",
+          "cape-range",
+          "exmouth"
+        ]
+      },
+      {
+        "id": "route-day-7",
+        "day": 7,
+        "placeIds": [
+          "exmouth",
+          "carnarvon"
+        ]
+      },
+      {
+        "id": "route-day-8",
+        "day": 8,
+        "placeIds": [
+          "carnarvon",
+          "shark-airport",
+          "little-lagoon",
+          "nanga"
+        ]
+      },
+      {
+        "id": "route-day-9",
+        "day": 9,
+        "placeIds": [
+          "nanga",
+          "monkey",
+          "shell",
+          "denham",
+          "geraldton"
+        ]
+      },
+      {
+        "id": "route-day-10",
+        "day": 10,
+        "placeIds": [
+          "geraldton",
+          "cervantes",
+          "lancelin",
+          "subiaco"
+        ]
+      },
+      {
+        "id": "route-day-11",
+        "day": 11,
+        "placeIds": [
+          "subiaco",
+          "rental",
+          "rottnest",
+          "subiaco"
+        ]
+      },
+      {
+        "id": "route-day-12",
+        "day": 12,
+        "placeIds": [
+          "subiaco",
+          "per-airport"
+        ]
+      }
+    ],
+    "dailyRoutes": [
+      {
+        "id": "route-day-1",
+        "day": 1,
+        "placeIds": [
+          "per-airport",
+          "perth"
+        ]
+      },
+      {
+        "id": "route-day-2",
+        "day": 2,
+        "placeIds": [
+          "perth",
+          "rental",
+          "kings",
+          "pinnacles",
+          "jurien"
+        ]
+      },
+      {
+        "id": "route-day-3",
+        "day": 3,
+        "placeIds": [
+          "jurien",
+          "geraldton",
+          "hutt",
+          "kalbarri"
+        ]
+      },
+      {
+        "id": "route-day-4",
+        "day": 4,
+        "placeIds": [
+          "kalbarri",
+          "kalbarri-np",
+          "carnarvon"
+        ]
+      },
+      {
+        "id": "route-day-5",
+        "day": 5,
+        "placeIds": [
+          "carnarvon",
+          "coral",
+          "exmouth"
+        ]
+      },
+      {
+        "id": "route-day-6",
+        "day": 6,
+        "placeIds": [
+          "exmouth",
+          "cape-range",
+          "exmouth"
+        ]
+      },
+      {
+        "id": "route-day-7",
+        "day": 7,
+        "placeIds": [
+          "exmouth",
+          "carnarvon"
+        ]
+      },
+      {
+        "id": "route-day-8",
+        "day": 8,
+        "placeIds": [
+          "carnarvon",
+          "shark-airport",
+          "little-lagoon",
+          "nanga"
+        ]
+      },
+      {
+        "id": "route-day-9",
+        "day": 9,
+        "placeIds": [
+          "nanga",
+          "monkey",
+          "shell",
+          "denham",
+          "geraldton"
+        ]
+      },
+      {
+        "id": "route-day-10",
+        "day": 10,
+        "placeIds": [
+          "geraldton",
+          "cervantes",
+          "lancelin",
+          "subiaco"
+        ]
+      },
+      {
+        "id": "route-day-11",
+        "day": 11,
+        "placeIds": [
+          "subiaco",
+          "rental",
+          "rottnest",
+          "subiaco"
+        ]
+      },
+      {
+        "id": "route-day-12",
+        "day": 12,
+        "placeIds": [
+          "subiaco",
+          "per-airport"
+        ]
+      }
+    ],
+    "region": {
+      "id": "western-australia",
+      "name": "西澳大利亚",
+      "countryCode": "AU",
+      "label": "西澳大利亚",
+      "heading": "WESTERN AUSTRALIA / 西澳大利亚"
+    },
+    "regions": [
+      {
+        "id": "western-australia",
+        "name": "西澳大利亚",
+        "countryCode": "AU",
+        "label": "西澳大利亚",
+        "heading": "WESTERN AUSTRALIA / 西澳大利亚"
+      }
+    ]
+  },
+  "routeMap": {
+    "defaultRegionId": "western-australia",
+    "regions": [
+      {
+        "id": "western-australia",
+        "label": "西澳大利亚",
+        "countryCode": "AU",
+        "scope": "template-schematic",
+        "mapMode": "frozen-template",
+        "templateId": "broad-riverland",
+        "mapModeReason": "separated-clusters-or-long-jump",
+        "mapModeMetrics": {
+          "placeCount": 24,
+          "geoPlaceCount": 24,
+          "widthKm": 238.9,
+          "heightKm": 1116.66,
+          "spanKm": 1127.51,
+          "averageNearestKm": 26.38,
+          "components": 1,
+          "largestLegKm": 334.37,
+          "jumpRatio": 7.12
+        },
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "canvas": {
+          "width": 1448,
+          "height": 1086
+        },
+        "projection": {
+          "type": "relative-schematic",
+          "bounds": null
+        },
+        "baseImage": "assets/maps/templates/template-10-broad-riverland.webp",
+        "title": "西澳大利亚 · 旅行路线",
+        "ariaLabel": "西澳大利亚模板化旅行路线示意图，共12天",
+        "disclaimer": "本图仅表达地点的相对方位与路线顺序，不代表真实比例或精确地理边界。",
+        "heading": {
+          "text": "WESTERN AUSTRALIA / 西澳大利亚",
+          "x": 33,
+          "y": 105,
+          "size": 40
+        },
+        "legend": {
+          "x": 35,
+          "y": 168,
+          "gap": 43
+        },
+        "annotations": [],
+        "routes": [
+          {
+            "day": 1,
+            "color": "#397dc1",
+            "placeIds": [
+              "per-airport",
+              "perth"
+            ],
+            "paths": [
+              "M883.48 814.21 C811.3 842.9 737.1 849.7 665.23 834.28"
+            ],
+            "overviewPaths": [
+              "M883.48 814.21 C811.3 842.9 737.1 849.7 665.23 834.28"
+            ]
+          },
+          {
+            "day": 2,
+            "color": "#e77e22",
+            "placeIds": [
+              "perth",
+              "rental",
+              "kings",
+              "pinnacles",
+              "jurien"
+            ],
+            "paths": [
+              "M665.23 834.28 C726.3 871.4 792.6 888.9 860.11 886 C811.8 900.2 763.5 900.2 718.11 886 C730.9 861.9 736.1 836.2 733.47 810.49 C711.2 769.5 701.8 725.8 705.87 681.9"
+            ],
+            "overviewPaths": [
+              "M665.23 834.28 C694.3 786.5 708.1 734.7 705.87 681.9"
+            ]
+          },
+          {
+            "day": 3,
+            "color": "#618344",
+            "placeIds": [
+              "jurien",
+              "geraldton",
+              "hutt",
+              "kalbarri"
+            ],
+            "paths": [
+              "M705.87 681.9 C725.8 663.0 749.2 651.0 774.84 646.56 C731.0 625.2 684.8 617.4 639.07 623.68 C667.8 582.3 705.5 552.1 749.78 534.68"
+            ],
+            "overviewPaths": [
+              "M705.87 681.9 C725.8 663.0 749.2 651.0 774.84 646.56 C777.5 606.0 769.0 568.0 749.78 534.68"
+            ]
+          },
+          {
+            "day": 4,
+            "color": "#209aaa",
+            "placeIds": [
+              "kalbarri",
+              "kalbarri-np",
+              "carnarvon"
+            ],
+            "paths": [
+              "M749.78 534.68 C730.3 554.2 717.6 577.4 712.49 602.92 C689.9 518.1 692.1 434.0 718.91 355.44"
+            ],
+            "overviewPaths": [
+              "M749.78 534.68 C757.2 470.7 746.7 409.7 718.91 355.44"
+            ]
+          },
+          {
+            "day": 5,
+            "color": "#8865a5",
+            "placeIds": [
+              "carnarvon",
+              "coral",
+              "exmouth"
+            ],
+            "paths": [
+              "M718.91 355.44 C694.5 340.2 676.2 319.5 664.99 294.65 C691.9 268.7 709.7 237.5 717.3 202.97"
+            ],
+            "overviewPaths": [
+              "M718.91 355.44 C703.1 303.8 702.6 251.9 717.3 202.97"
+            ]
+          },
+          {
+            "day": 6,
+            "color": "#df6185",
+            "placeIds": [
+              "exmouth",
+              "cape-range",
+              "exmouth"
+            ],
+            "paths": [
+              "M717.3 202.97 C689.9 200.4 664.0 205.5 641.09 217.85 C665.5 205.2 691.4 200.1 717.3 202.97"
+            ],
+            "overviewPaths": [
+              "M717.3 202.97 C689.9 200.4 664.0 205.5 641.09 217.85 C665.5 205.2 691.4 200.1 717.3 202.97"
+            ]
+          },
+          {
+            "day": 7,
+            "color": "#397dc1",
+            "placeIds": [
+              "exmouth",
+              "carnarvon"
+            ],
+            "paths": [
+              "M717.3 202.97 C733.1 254.6 733.6 306.5 718.91 355.44"
+            ],
+            "overviewPaths": [
+              "M717.3 202.97 C733.1 254.6 733.6 306.5 718.91 355.44"
+            ]
+          },
+          {
+            "day": 8,
+            "color": "#e77e22",
+            "placeIds": [
+              "carnarvon",
+              "shark-airport",
+              "little-lagoon",
+              "nanga"
+            ],
+            "paths": [
+              "M718.91 355.44 C658.0 401.9 614.6 461.2 591.1 529.74 C576.3 494.3 572.3 457.6 579.37 421.94 C599.9 470.2 631.8 509.0 673.28 536.21"
+            ],
+            "overviewPaths": [
+              "M718.91 355.44 C685.3 412.3 669.8 473.8 673.28 536.21"
+            ]
+          },
+          {
+            "day": 9,
+            "color": "#618344",
+            "placeIds": [
+              "nanga",
+              "monkey",
+              "shell",
+              "denham",
+              "geraldton"
+            ],
+            "paths": [
+              "M673.28 536.21 C654.2 490.2 649.0 442.8 658.14 396.58 C669.2 424.7 687.1 447.7 710.57 463.98 C685.0 474.4 658.7 477.0 633.19 471.73 C663.9 545.3 712.0 604.8 774.84 646.56"
+            ],
+            "overviewPaths": [
+              "M673.28 536.21 C718.8 563.6 753.4 601.1 774.84 646.56"
+            ]
+          },
+          {
+            "day": 10,
+            "color": "#209aaa",
+            "placeIds": [
+              "geraldton",
+              "cervantes",
+              "lancelin",
+              "subiaco"
+            ],
+            "paths": [
+              "M774.84 646.56 C732.8 675.1 701.8 712.8 683.78 757.37 C707.4 743.1 733.1 736.3 759.2 737.51 C772.1 762.4 790.7 781.8 813.96 794.58"
+            ],
+            "overviewPaths": [
+              "M774.84 646.56 C773.3 700.8 786.6 751.1 813.96 794.58"
+            ]
+          },
+          {
+            "day": 11,
+            "color": "#8865a5",
+            "placeIds": [
+              "subiaco",
+              "rental",
+              "rottnest",
+              "subiaco"
+            ],
+            "paths": [
+              "M813.96 794.58 C838.8 821.0 854.5 852.1 860.11 886 C838.6 873.3 815.4 867.5 791.78 868.88 C791.9 841.4 799.4 816.1 813.96 794.58"
+            ],
+            "overviewPaths": []
+          },
+          {
+            "day": 12,
+            "color": "#df6185",
+            "placeIds": [
+              "subiaco",
+              "per-airport"
+            ],
+            "paths": [
+              "M813.96 794.58 C835.6 808.2 859.3 814.9 883.48 814.21"
+            ],
+            "overviewPaths": [
+              "M813.96 794.58 C835.6 808.2 859.3 814.9 883.48 814.21"
+            ]
+          }
+        ],
+        "places": [
+          {
+            "id": "per-airport",
+            "x": 883.48,
+            "y": 814.21,
+            "color": "#397dc1",
+            "tx": 915.48,
+            "ty": 782.21,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "珀斯机场"
+            ],
+            "query": "珀斯机场 西澳大利亚",
+            "geo": {
+              "lat": -31.94,
+              "lng": 115.97
+            },
+            "days": [
+              1,
+              12
+            ]
+          },
+          {
+            "id": "perth",
+            "x": 665.23,
+            "y": 834.28,
+            "color": "#397dc1",
+            "tx": 633.23,
+            "ty": 802.28,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "珀斯"
+            ],
+            "query": "珀斯 西澳大利亚",
+            "geo": {
+              "lat": -31.95,
+              "lng": 115.86
+            },
+            "days": [
+              1,
+              2
+            ]
+          },
+          {
+            "id": "rental",
+            "x": 860.11,
+            "y": 886,
+            "color": "#e77e22",
+            "tx": 938.11,
+            "ty": 962,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "Downtown 租车点"
+            ],
+            "query": "Downtown 租车点 西澳大利亚",
+            "geo": {
+              "lat": -31.961,
+              "lng": 115.871
+            },
+            "days": [
+              2,
+              11
+            ]
+          },
+          {
+            "id": "kings",
+            "x": 718.11,
+            "y": 886,
+            "color": "#e77e22",
+            "tx": 640.11,
+            "ty": 962,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "Kings Park 国王公园"
+            ],
+            "query": "Kings Park 国王公园 西澳大利亚",
+            "geo": {
+              "lat": -31.96,
+              "lng": 115.83
+            },
+            "days": [
+              2
+            ]
+          },
+          {
+            "id": "pinnacles",
+            "x": 733.47,
+            "y": 810.49,
+            "color": "#e77e22",
+            "tx": 871.47,
+            "ty": 722.49,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "The Pinnacles Desert 尖峰石阵"
+            ],
+            "query": "The Pinnacles Desert 尖峰石阵 西澳大利亚",
+            "geo": {
+              "lat": -30.6,
+              "lng": 115.16
+            },
+            "days": [
+              2
+            ]
+          },
+          {
+            "id": "jurien",
+            "x": 705.87,
+            "y": 681.9,
+            "color": "#e77e22",
+            "tx": 843.87,
+            "ty": 593.9,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "朱里恩湾"
+            ],
+            "query": "朱里恩湾 西澳大利亚",
+            "geo": {
+              "lat": -30.3,
+              "lng": 115.04
+            },
+            "days": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "geraldton",
+            "x": 774.84,
+            "y": 646.56,
+            "color": "#618344",
+            "tx": 806.84,
+            "ty": 614.56,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "杰拉尔顿"
+            ],
+            "query": "杰拉尔顿 西澳大利亚",
+            "geo": {
+              "lat": -28.78,
+              "lng": 114.61
+            },
+            "days": [
+              3,
+              9,
+              10
+            ]
+          },
+          {
+            "id": "hutt",
+            "x": 639.07,
+            "y": 623.68,
+            "color": "#618344",
+            "tx": 607.07,
+            "ty": 591.68,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "Hutt Lagoon 粉红湖"
+            ],
+            "query": "Hutt Lagoon 粉红湖 西澳大利亚",
+            "geo": {
+              "lat": -28.18,
+              "lng": 114.25
+            },
+            "days": [
+              3
+            ]
+          },
+          {
+            "id": "kalbarri",
+            "x": 749.78,
+            "y": 534.68,
+            "color": "#618344",
+            "tx": 827.78,
+            "ty": 472.68,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "卡尔巴里"
+            ],
+            "query": "卡尔巴里 西澳大利亚",
+            "geo": {
+              "lat": -27.71,
+              "lng": 114.17
+            },
+            "days": [
+              3,
+              4
+            ]
+          },
+          {
+            "id": "kalbarri-np",
+            "x": 712.49,
+            "y": 602.92,
+            "color": "#209aaa",
+            "tx": 634.49,
+            "ty": 678.92,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "Kalbarri National Park"
+            ],
+            "query": "Kalbarri National Park 西澳大利亚",
+            "geo": {
+              "lat": -27.65,
+              "lng": 114.44
+            },
+            "days": [
+              4
+            ]
+          },
+          {
+            "id": "carnarvon",
+            "x": 718.91,
+            "y": 355.44,
+            "color": "#209aaa",
+            "tx": 856.91,
+            "ty": 267.44,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "卡那封"
+            ],
+            "query": "卡那封 西澳大利亚",
+            "geo": {
+              "lat": -24.88,
+              "lng": 113.66
+            },
+            "days": [
+              4,
+              5,
+              7,
+              8
+            ]
+          },
+          {
+            "id": "coral",
+            "x": 664.99,
+            "y": 294.65,
+            "color": "#8865a5",
+            "tx": 802.99,
+            "ty": 396.65,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "Coral Bay"
+            ],
+            "query": "Coral Bay 西澳大利亚",
+            "geo": {
+              "lat": -23.14,
+              "lng": 113.77
+            },
+            "days": [
+              5
+            ]
+          },
+          {
+            "id": "exmouth",
+            "x": 717.3,
+            "y": 202.97,
+            "color": "#8865a5",
+            "tx": 749.3,
+            "ty": 170.97,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "埃克斯茅斯"
+            ],
+            "query": "埃克斯茅斯 西澳大利亚",
+            "geo": {
+              "lat": -21.94,
+              "lng": 114.13
+            },
+            "days": [
+              5,
+              6,
+              7
+            ]
+          },
+          {
+            "id": "cape-range",
+            "x": 641.09,
+            "y": 217.85,
+            "color": "#df6185",
+            "tx": 609.09,
+            "ty": 185.85,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "Cape Range National Park"
+            ],
+            "query": "Cape Range National Park 西澳大利亚",
+            "geo": {
+              "lat": -22.1,
+              "lng": 113.96
+            },
+            "days": [
+              6
+            ]
+          },
+          {
+            "id": "shark-airport",
+            "x": 591.1,
+            "y": 529.74,
+            "color": "#e77e22",
+            "tx": 513.1,
+            "ty": 467.74,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "鲨鱼湾机场"
+            ],
+            "query": "鲨鱼湾机场 西澳大利亚",
+            "geo": {
+              "lat": -25.89,
+              "lng": 113.58
+            },
+            "days": [
+              8
+            ]
+          },
+          {
+            "id": "little-lagoon",
+            "x": 579.37,
+            "y": 421.94,
+            "color": "#e77e22",
+            "tx": 547.37,
+            "ty": 389.94,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "Little Lagoon"
+            ],
+            "query": "Little Lagoon 西澳大利亚",
+            "geo": {
+              "lat": -25.9,
+              "lng": 113.55
+            },
+            "days": [
+              8
+            ]
+          },
+          {
+            "id": "nanga",
+            "x": 673.28,
+            "y": 536.21,
+            "color": "#e77e22",
+            "tx": 751.28,
+            "ty": 474.21,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "Nanga Shark Bay Caravan Park"
+            ],
+            "query": "Nanga Shark Bay Caravan Park 西澳大利亚",
+            "geo": {
+              "lat": -26.25,
+              "lng": 113.8
+            },
+            "days": [
+              8,
+              9
+            ]
+          },
+          {
+            "id": "monkey",
+            "x": 658.14,
+            "y": 396.58,
+            "color": "#618344",
+            "tx": 736.14,
+            "ty": 334.58,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "Monkey Mia"
+            ],
+            "query": "Monkey Mia 西澳大利亚",
+            "geo": {
+              "lat": -25.79,
+              "lng": 113.72
+            },
+            "days": [
+              9
+            ]
+          },
+          {
+            "id": "shell",
+            "x": 710.57,
+            "y": 463.98,
+            "color": "#618344",
+            "tx": 788.57,
+            "ty": 401.98,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "Shell Beach"
+            ],
+            "query": "Shell Beach 西澳大利亚",
+            "geo": {
+              "lat": -26.21,
+              "lng": 113.77
+            },
+            "days": [
+              9
+            ]
+          },
+          {
+            "id": "denham",
+            "x": 633.19,
+            "y": 471.73,
+            "color": "#618344",
+            "tx": 555.19,
+            "ty": 409.73,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "德纳姆"
+            ],
+            "query": "德纳姆 西澳大利亚",
+            "geo": {
+              "lat": -25.93,
+              "lng": 113.53
+            },
+            "days": [
+              9
+            ]
+          },
+          {
+            "id": "cervantes",
+            "x": 683.78,
+            "y": 757.37,
+            "color": "#209aaa",
+            "tx": 651.78,
+            "ty": 725.37,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "Cervantes"
+            ],
+            "query": "Cervantes 西澳大利亚",
+            "geo": {
+              "lat": -30.5,
+              "lng": 115.07
+            },
+            "days": [
+              10
+            ]
+          },
+          {
+            "id": "lancelin",
+            "x": 759.2,
+            "y": 737.51,
+            "color": "#209aaa",
+            "tx": 791.2,
+            "ty": 705.51,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "Lancelin Sand Dunes"
+            ],
+            "query": "Lancelin Sand Dunes 西澳大利亚",
+            "geo": {
+              "lat": -31,
+              "lng": 115.33
+            },
+            "days": [
+              10
+            ]
+          },
+          {
+            "id": "subiaco",
+            "x": 813.96,
+            "y": 794.58,
+            "color": "#209aaa",
+            "tx": 951.96,
+            "ty": 896.58,
+            "size": 24,
+            "anchor": "start",
+            "lines": [
+              "Subiaco 珀斯"
+            ],
+            "query": "Subiaco 珀斯 西澳大利亚",
+            "geo": {
+              "lat": -31.95,
+              "lng": 115.82
+            },
+            "days": [
+              10,
+              11,
+              12
+            ]
+          },
+          {
+            "id": "rottnest",
+            "x": 791.78,
+            "y": 868.88,
+            "color": "#8865a5",
+            "tx": 713.78,
+            "ty": 944.88,
+            "size": 24,
+            "anchor": "end",
+            "lines": [
+              "罗特内斯特岛"
+            ],
+            "query": "罗特内斯特岛 西澳大利亚",
+            "geo": {
+              "lat": -32,
+              "lng": 115.52
+            },
+            "days": [
+              11
+            ]
+          }
+        ],
+        "overviewPlaceIds": [
+          "per-airport",
+          "perth",
+          "jurien",
+          "geraldton",
+          "kalbarri",
+          "carnarvon",
+          "exmouth",
+          "cape-range",
+          "nanga",
+          "subiaco"
+        ],
+        "dailyLayouts": {
+          "1": {
+            "places": [
+              "per-airport",
+              "perth"
+            ],
+            "labels": {
+              "per-airport": {
+                "x": 915.48,
+                "y": 782.21,
+                "anchor": "start"
+              },
+              "perth": {
+                "x": 633.23,
+                "y": 802.28,
+                "anchor": "end"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 774.36,
+                "y": 824.25
+              }
+            ]
+          },
+          "2": {
+            "places": [
+              "perth",
+              "rental",
+              "kings",
+              "pinnacles",
+              "jurien"
+            ],
+            "labels": {
+              "perth": {
+                "x": 633.23,
+                "y": 802.28,
+                "anchor": "end"
+              },
+              "rental": {
+                "x": 938.11,
+                "y": 962,
+                "anchor": "start"
+              },
+              "kings": {
+                "x": 640.11,
+                "y": 962,
+                "anchor": "end"
+              },
+              "pinnacles": {
+                "x": 871.47,
+                "y": 722.49,
+                "anchor": "start"
+              },
+              "jurien": {
+                "x": 843.87,
+                "y": 593.9,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 762.67,
+                "y": 860.14
+              },
+              {
+                "items": [],
+                "x": 789.11,
+                "y": 886
+              },
+              {
+                "items": [],
+                "x": 725.79,
+                "y": 848.25
+              },
+              {
+                "items": [],
+                "x": 719.67,
+                "y": 746.19
+              }
+            ]
+          },
+          "3": {
+            "places": [
+              "jurien",
+              "geraldton",
+              "hutt",
+              "kalbarri"
+            ],
+            "labels": {
+              "jurien": {
+                "x": 843.87,
+                "y": 593.9,
+                "anchor": "start"
+              },
+              "geraldton": {
+                "x": 806.84,
+                "y": 614.56,
+                "anchor": "start"
+              },
+              "hutt": {
+                "x": 607.07,
+                "y": 591.68,
+                "anchor": "end"
+              },
+              "kalbarri": {
+                "x": 827.78,
+                "y": 472.68,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 740.36,
+                "y": 664.23
+              },
+              {
+                "items": [],
+                "x": 706.96,
+                "y": 635.12
+              },
+              {
+                "items": [],
+                "x": 694.42,
+                "y": 579.18
+              }
+            ]
+          },
+          "4": {
+            "places": [
+              "kalbarri",
+              "kalbarri-np",
+              "carnarvon"
+            ],
+            "labels": {
+              "kalbarri": {
+                "x": 827.78,
+                "y": 472.68,
+                "anchor": "start"
+              },
+              "kalbarri-np": {
+                "x": 634.49,
+                "y": 678.92,
+                "anchor": "end"
+              },
+              "carnarvon": {
+                "x": 856.91,
+                "y": 267.44,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 731.13,
+                "y": 568.8
+              },
+              {
+                "items": [],
+                "x": 715.7,
+                "y": 479.18
+              }
+            ]
+          },
+          "5": {
+            "places": [
+              "carnarvon",
+              "coral",
+              "exmouth"
+            ],
+            "labels": {
+              "carnarvon": {
+                "x": 856.91,
+                "y": 267.44,
+                "anchor": "start"
+              },
+              "coral": {
+                "x": 802.99,
+                "y": 396.65,
+                "anchor": "start"
+              },
+              "exmouth": {
+                "x": 749.3,
+                "y": 170.97,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 691.95,
+                "y": 325.04
+              },
+              {
+                "items": [],
+                "x": 691.14,
+                "y": 248.81
+              }
+            ]
+          },
+          "6": {
+            "places": [
+              "exmouth",
+              "cape-range"
+            ],
+            "labels": {
+              "exmouth": {
+                "x": 749.3,
+                "y": 170.97,
+                "anchor": "start"
+              },
+              "cape-range": {
+                "x": 609.09,
+                "y": 185.85,
+                "anchor": "end"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 679.19,
+                "y": 210.41
+              },
+              {
+                "items": [],
+                "x": 679.19,
+                "y": 210.41
+              }
+            ]
+          },
+          "7": {
+            "places": [
+              "exmouth",
+              "carnarvon"
+            ],
+            "labels": {
+              "exmouth": {
+                "x": 749.3,
+                "y": 170.97,
+                "anchor": "start"
+              },
+              "carnarvon": {
+                "x": 856.91,
+                "y": 267.44,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 718.11,
+                "y": 279.2
+              }
+            ]
+          },
+          "8": {
+            "places": [
+              "carnarvon",
+              "shark-airport",
+              "little-lagoon",
+              "nanga"
+            ],
+            "labels": {
+              "carnarvon": {
+                "x": 856.91,
+                "y": 267.44,
+                "anchor": "start"
+              },
+              "shark-airport": {
+                "x": 513.1,
+                "y": 467.74,
+                "anchor": "end"
+              },
+              "little-lagoon": {
+                "x": 547.37,
+                "y": 389.94,
+                "anchor": "end"
+              },
+              "nanga": {
+                "x": 751.28,
+                "y": 474.21,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 655,
+                "y": 442.59
+              },
+              {
+                "items": [],
+                "x": 585.24,
+                "y": 475.84
+              },
+              {
+                "items": [],
+                "x": 626.33,
+                "y": 479.08
+              }
+            ]
+          },
+          "9": {
+            "places": [
+              "nanga",
+              "monkey",
+              "shell",
+              "denham",
+              "geraldton"
+            ],
+            "labels": {
+              "nanga": {
+                "x": 751.28,
+                "y": 474.21,
+                "anchor": "start"
+              },
+              "monkey": {
+                "x": 736.14,
+                "y": 334.58,
+                "anchor": "start"
+              },
+              "shell": {
+                "x": 788.57,
+                "y": 401.98,
+                "anchor": "start"
+              },
+              "denham": {
+                "x": 555.19,
+                "y": 409.73,
+                "anchor": "end"
+              },
+              "geraldton": {
+                "x": 806.84,
+                "y": 614.56,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 665.71,
+                "y": 466.39
+              },
+              {
+                "items": [],
+                "x": 684.36,
+                "y": 430.28
+              },
+              {
+                "items": [],
+                "x": 671.88,
+                "y": 467.86
+              },
+              {
+                "items": [],
+                "x": 704.02,
+                "y": 559.14
+              }
+            ]
+          },
+          "10": {
+            "places": [
+              "geraldton",
+              "cervantes",
+              "lancelin",
+              "subiaco"
+            ],
+            "labels": {
+              "geraldton": {
+                "x": 806.84,
+                "y": 614.56,
+                "anchor": "start"
+              },
+              "cervantes": {
+                "x": 651.78,
+                "y": 725.37,
+                "anchor": "end"
+              },
+              "lancelin": {
+                "x": 791.2,
+                "y": 705.51,
+                "anchor": "start"
+              },
+              "subiaco": {
+                "x": 951.96,
+                "y": 896.58,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 729.31,
+                "y": 701.96
+              },
+              {
+                "items": [],
+                "x": 721.49,
+                "y": 747.44
+              },
+              {
+                "items": [],
+                "x": 786.58,
+                "y": 766.05
+              }
+            ]
+          },
+          "11": {
+            "places": [
+              "subiaco",
+              "rental",
+              "rottnest"
+            ],
+            "labels": {
+              "subiaco": {
+                "x": 951.96,
+                "y": 896.58,
+                "anchor": "start"
+              },
+              "rental": {
+                "x": 938.11,
+                "y": 962,
+                "anchor": "start"
+              },
+              "rottnest": {
+                "x": 713.78,
+                "y": 944.88,
+                "anchor": "end"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 837.04,
+                "y": 840.29
+              },
+              {
+                "items": [],
+                "x": 825.94,
+                "y": 877.44
+              },
+              {
+                "items": [],
+                "x": 802.87,
+                "y": 831.73
+              }
+            ]
+          },
+          "12": {
+            "places": [
+              "subiaco",
+              "per-airport"
+            ],
+            "labels": {
+              "subiaco": {
+                "x": 951.96,
+                "y": 896.58,
+                "anchor": "start"
+              },
+              "per-airport": {
+                "x": 915.48,
+                "y": 782.21,
+                "anchor": "start"
+              }
+            },
+            "transport": [
+              {
+                "items": [],
+                "x": 848.72,
+                "y": 804.39
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
