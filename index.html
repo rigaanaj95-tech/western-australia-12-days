@@ -16,7 +16,9 @@
   <script src="app.js?v=20260910-4" defer></script>
   <script src="ticket-pdf-preview.js?v=20260910-2" defer></script>
   <script src="ledger.js?v=20260910-3" defer></script>
-  <script src="site-navigation.js?v=20260910-2" defer></script>
+  <script src="site-navigation.js?v=20260918-1" defer></script>
+  <link rel="stylesheet" href="packing.css?v=20260918-1">
+  <script src="packing.js?v=20260918-1" defer></script>
 </head>
 <body>
   <a class="skip-link" id="skip-link" href="#main">跳到主要内容</a>
@@ -31,6 +33,7 @@
           <a href="#itinerary" role="menuitem" data-module="itinerary" hidden>行程</a>
           <a href="#drive" role="menuitem" data-module="driving" hidden>自驾</a>
           <a href="#prep" role="menuitem" data-module="todo" hidden>Todo</a>
+          <a href="#packing" role="menuitem">物品清单</a>
         </div>
       </details>
       <a class="primary-navigation__ledger" id="ledger-navigation-link" href="#ledger" data-module="ledger" hidden>记账</a>
@@ -104,6 +107,16 @@
         <button type="submit">添加</button>
       </form>
       <div class="todo-list" id="todo-list"></div>
+    </section>
+
+    <section class="section packing-section" id="packing" aria-labelledby="packing-title">
+      <div class="section-heading"><div><p class="section-kicker">READY TO PACK</p><h2 id="packing-title">物品整理清单</h2></div><span class="soft-label" id="packing-progress" aria-live="polite"></span></div>
+      <p class="packing-intro">西澳北线 12 天 · 9 月 23 日—10 月 4 日。按自驾、浮潜和户外行程整理，衣物以中途洗一次为参考，按需勾选。</p>
+      <div class="packing-controls"><progress id="packing-meter" aria-label="物品整理进度" max="53" value="0"></progress><label class="packing-filter"><input type="checkbox" id="packing-pending">只看未整理</label></div>
+      <div id="packing-groups" class="packing-groups"></div>
+      <p id="packing-empty" hidden>全部整理好了，旅途愉快！</p>
+      <div class="packing-reminder"><p><strong>去程：</strong>9 月 23 日 01:35 从上海起飞，按 9 月 22 日晚前往机场准备。</p><p><strong>返程：</strong>10 月 4 日 05:35 从珀斯起飞，10 月 3 日出海回来后收好返程行李。</p></div>
+      <p id="packing-storage" class="packing-storage">勾选自动保存在当前浏览器，各设备分别记录。</p>
     </section>
 
     <footer class="footer">
