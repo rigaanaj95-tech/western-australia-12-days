@@ -90,12 +90,18 @@ npm run validate
 ↓
 GitHub
 ↓
-Cloudflare Pages
+Vercel
 ↓
-[可选] Cloudflare D1
+Neon Postgres
 ```
 
-Cloudflare D1 只在需要多人 / 多设备共享记账、To Do、Ticket 等数据时才需要。
+当前账本通过 Vercel Function `/api/trip/:tripId` 读写 Neon。部署前在 Neon 创建数据库，并在本地与 Vercel 中配置 `DATABASE_URL`，然后执行：
+
+```bash
+npm run db:setup
+```
+
+该命令会创建 `trip_records` 表，并以稳定 ID 迁移当前两位成员和 21 笔账单；重复执行只会更新同 ID 数据，不会产生重复记录。账本设置仍保存在每台设备本地。
 
 ---
 

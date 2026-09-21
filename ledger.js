@@ -401,7 +401,7 @@
     const collections = ["bills", "travelers"];
     const rawApiBase = String(options.apiBase || "/api/trip").trim();
     if (!/^\/(?!\/)/.test(rawApiBase) || rawApiBase.includes("\\") || /[?#]/.test(rawApiBase)) {
-      throw new Error("D1 apiBase must be a same-origin absolute path");
+      throw new Error("Shared storage apiBase must be a same-origin absolute path");
     }
     const apiBase = rawApiBase.replace(/\/+$/, "") || "/";
     const endpoint = `${apiBase}/${encodeURIComponent(tripId)}?collections=bills%2Ctravelers`;
@@ -469,8 +469,8 @@
       : Array.isArray(configPersistence.sharedCollections)
         ? configPersistence.sharedCollections
         : [];
-    const d1Requested = String(requestedMode || "").trim().toLowerCase() === "d1";
-    const mode = d1Requested && sharedCollections.includes("ledger") ? "d1" : "local";
+    const sharedModeRequested = ["d1", "neon"].includes(String(requestedMode || "").trim().toLowerCase());
+    const mode = sharedModeRequested && sharedCollections.includes("ledger") ? "d1" : "local";
     const d1Options = {
       ...(configPersistence.d1 && typeof configPersistence.d1 === "object" ? configPersistence.d1 : {}),
       ...(optionPersistence.d1 && typeof optionPersistence.d1 === "object" ? optionPersistence.d1 : {}),
@@ -1940,7 +1940,7 @@
     } catch (error) {
       console.error("TravelLedger could not load data", error);
       notice = ledgerPersistenceMode === "d1"
-        ? "共享账本暂时无法读取，请检查你的 Cloudflare D1 配置。"
+        ? "共享账本暂时无法读取，请检查网络或云端数据库配置。"
         : "本地账本暂时无法读取，已打开一份空账本。";
     }
     ledgerData = normalizeData(stored);

@@ -45,7 +45,7 @@
           "additionalProperties": false,
           "required": ["mode", "sharedCollections"],
           "properties": {
-            "mode": { "const": "d1" },
+            "mode": { "enum": ["d1", "neon"] },
             "apiBase": {
               "type": "string",
               "pattern": "^/(?!/)[^\\\\?#]+$",

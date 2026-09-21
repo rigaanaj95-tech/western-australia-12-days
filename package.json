@@ -8,8 +8,15 @@
     "boundaries:index": "node scripts/build-boundary-index.mjs",
     "boundaries:validate": "node scripts/validate-boundaries.mjs",
     "build:map": "node scripts/build-map.mjs",
+    "db:migrate": "node scripts/migrate-neon.mjs",
+    "db:seed:ledger": "node scripts/seed-ledger-neon.mjs",
+    "db:setup": "npm run db:migrate && npm run db:seed:ledger",
     "validate": "node scripts/validate-lite.mjs",
+    "test:api": "node --test tests/api/trip-api.test.mjs",
     "test:runtime": "node --test tests/runtime/runtime-storage.test.cjs",
     "preview": "node local-preview-server.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0"
   }
 }

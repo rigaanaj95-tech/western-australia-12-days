@@ -130,7 +130,7 @@ test("D1 is contacted only after an explicit d1 mode selection", async () => {
 });
 
 test("D1 requires and enforces an explicit collection allowlist", async () => {
-  assert.throws(() => storageRuntime.createAdapter({ mode: "d1", tripId: "shared-trip" }), /explicit shared record collection allowlist/);
+  assert.throws(() => storageRuntime.createAdapter({ mode: "d1", tripId: "shared-trip" }), /explicit record collection allowlist/);
   const originalFetch = global.fetch;
   global.fetch = async () => ({
     ok: true,
@@ -154,5 +154,31 @@ test("D1 requires and enforces an explicit collection allowlist", async () => {
 test("D1 rejects cross-origin and backslash apiBase values", () => {
   for (const apiBase of ["https://evil.example/api", "//evil.example/api", "/\\evil.example/api", "/api/trip?leak=1"]) {
     assert.throws(() => storageRuntime.createAdapter({ mode: "d1", tripId: "shared-trip", collections: ["todos"], apiBase }), /same-origin/);
+  }
+});
+
+test("Neon mode uses the existing shared storage protocol", async () => {
+  const originalFetch = global.fetch;
+  let requestedUrl = "";
+  global.fetch = async (url) => {
+    requestedUrl = url;
+    return {
+      ok: true,
+      async json() {
+        return { version: 1, settings: null, travelers: [], bills: [], todos: [], tickets: [] };
+      }
+    };
+  };
+  try {
+    const adapter = storageRuntime.createAdapter({
+      mode: "neon",
+      tripId: "neon-trip",
+      collections: ["bills"]
+    });
+    await adapter.load();
+    assert.equal(adapter.mode, "d1");
+    assert.equal(requestedUrl, "/api/trip/neon-trip?collections=bills");
+  } finally {
+    global.fetch = originalFetch;
   }
 });

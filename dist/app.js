@@ -731,8 +731,9 @@ function createRuntimeAdapters() {
     ...(moduleEnabled("todo") ? ["todos"] : []),
     ...(moduleEnabled("itinerary") ? ["tickets"] : [])
   ];
-  const localCollections = enabledCollections.filter((collection) => persistence.mode !== "d1" || !sharedCollections.has(collection));
-  const d1Collections = enabledCollections.filter((collection) => persistence.mode === "d1" && sharedCollections.has(collection));
+  const sharedMode = ["d1", "neon"].includes(String(persistence.mode || "").toLowerCase());
+  const localCollections = enabledCollections.filter((collection) => !sharedMode || !sharedCollections.has(collection));
+  const d1Collections = enabledCollections.filter((collection) => sharedMode && sharedCollections.has(collection));
   const localAdapter = localCollections.length ? storage.createAdapter({ mode: "local", tripId, collections: localCollections }) : null;
   const d1Adapter = d1Collections.length ? storage.createAdapter({
     mode: "d1",

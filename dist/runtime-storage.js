@@ -41,7 +41,8 @@
   }
 
   function normalizeMode(mode) {
-    return String(mode || "").trim().toLowerCase() === "d1" ? "d1" : "local";
+    const normalized = String(mode || "").trim().toLowerCase();
+    return normalized === "d1" || normalized === "neon" ? normalized : "local";
   }
 
   function normalizeCollections(collections, fallback = []) {
@@ -53,7 +54,7 @@
   function normalizeApiBase(value = "/api/trip") {
     const raw = String(value || "").trim();
     if (!/^\/(?!\/)/.test(raw) || raw.includes("\\") || /[?#]/.test(raw)) {
-      throw new Error("D1 apiBase must be a same-origin absolute path");
+      throw new Error("Shared storage apiBase must be a same-origin absolute path");
     }
     return raw.replace(/\/+$/, "") || "/";
   }
@@ -187,7 +188,7 @@
     const apiBase = normalizeApiBase(options.apiBase || "/api/trip");
     const ownedCollections = normalizeCollections(options.collections);
     const ownedRecordCollections = RECORD_COLLECTIONS.filter((collection) => ownedCollections.includes(collection));
-    if (!ownedRecordCollections.length) throw new Error("D1 mode requires an explicit shared record collection allowlist");
+    if (!ownedRecordCollections.length) throw new Error("Shared storage mode requires an explicit record collection allowlist");
     const settingsAdapter = createLocalAdapter({
       tripId,
       storage: options.storage,
@@ -297,7 +298,7 @@
   }
 
   function createAdapter(options = {}) {
-    return normalizeMode(options.mode) === "d1"
+    return ["d1", "neon"].includes(normalizeMode(options.mode))
       ? createD1Adapter(options)
       : createLocalAdapter(options);
   }

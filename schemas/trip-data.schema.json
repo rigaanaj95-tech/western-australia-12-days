@@ -263,7 +263,7 @@
           "type": "object",
           "required": ["mode"],
           "properties": {
-            "mode": { "enum": ["local", "d1"] },
+            "mode": { "enum": ["local", "d1", "neon"] },
             "apiBase": { "type": "string", "pattern": "^/(?!/)[^\\\\?#]+$" },
             "sharedCollections": {
               "type": "array",
@@ -276,7 +276,7 @@
           },
           "allOf": [
             {
-              "if": { "properties": { "mode": { "const": "d1" } }, "required": ["mode"] },
+              "if": { "properties": { "mode": { "enum": ["d1", "neon"] } }, "required": ["mode"] },
               "then": { "required": ["sharedCollections"] }
             }
           ]

@@ -153,15 +153,15 @@ if (config && trip) {
     }
   }
   if (modules.overview && !trip.routeMap?.regions?.length) errors.push("地图模块已开启，但缺少 Builder 生成的 routeMap；请先运行 npm run build:map");
-  if (config.persistence?.mode !== "local" && config.persistence?.mode !== "d1") errors.push("persistence.mode 只能是 local 或 d1");
-  if (config.persistence?.mode === "d1") {
+  if (!["local", "d1", "neon"].includes(config.persistence?.mode)) errors.push("persistence.mode 只能是 local、d1 或 neon");
+  if (["d1", "neon"].includes(config.persistence?.mode)) {
     const sharedCollections = config.persistence.sharedCollections;
     const allowedCollections = new Set(["todos", "tickets", "ledger"]);
     if (!Array.isArray(sharedCollections) || !sharedCollections.length || sharedCollections.some((name) => !allowedCollections.has(name))) {
-      errors.push("D1 模式必须提供有效的 persistence.sharedCollections");
+      errors.push("共享存储模式必须提供有效的 persistence.sharedCollections");
     }
     const apiBase = config.persistence.apiBase || "/api/trip";
-    if (!/^\/(?!\/)/.test(apiBase) || apiBase.includes("\\") || /[?#]/.test(apiBase)) errors.push("D1 apiBase 必须是同源绝对路径");
+    if (!/^\/(?!\/)/.test(apiBase) || apiBase.includes("\\") || /[?#]/.test(apiBase)) errors.push("共享存储 apiBase 必须是同源绝对路径");
   }
 }
 

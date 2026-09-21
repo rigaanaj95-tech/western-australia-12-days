@@ -13,7 +13,11 @@
     },
     "language": "zh-CN",
     "persistence": {
-      "mode": "local"
+      "mode": "neon",
+      "apiBase": "/api/trip",
+      "sharedCollections": [
+        "ledger"
+      ]
     }
   },
   "metadata": {
