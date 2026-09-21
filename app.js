@@ -19,14 +19,15 @@ function normalizeTripConfig(raw = {}) {
     return [name, raw.modules[name]];
   }));
   const mode = raw?.persistence?.mode;
-  if (mode !== "local" && mode !== "d1") throw new Error("trip-data.json config.persistence.mode must be local or d1");
-  const sharedCollections = mode === "d1" ? [...new Set(raw.persistence.sharedCollections || [])] : [];
-  if (mode === "d1" && (!sharedCollections.length || sharedCollections.some((name) => !SHARED_COLLECTIONS.includes(name)))) {
-    throw new Error("D1 mode requires an explicit sharedCollections allowlist");
+  const sharedMode = mode === "d1" || mode === "neon";
+  if (mode !== "local" && !sharedMode) throw new Error("trip-data.json config.persistence.mode must be local, d1, or neon");
+  const sharedCollections = sharedMode ? [...new Set(raw.persistence.sharedCollections || [])] : [];
+  if (sharedMode && (!sharedCollections.length || sharedCollections.some((name) => !SHARED_COLLECTIONS.includes(name)))) {
+    throw new Error("Shared storage mode requires an explicit sharedCollections allowlist");
   }
   const apiBase = raw.persistence.apiBase || "/api/trip";
-  if (mode === "d1" && (!/^\/(?!\/)/.test(apiBase) || apiBase.includes("\\") || /[?#]/.test(apiBase))) {
-    throw new Error("D1 apiBase must be a same-origin path");
+  if (sharedMode && (!/^\/(?!\/)/.test(apiBase) || apiBase.includes("\\") || /[?#]/.test(apiBase))) {
+    throw new Error("Shared storage apiBase must be a same-origin path");
   }
   return {
     ...raw,
@@ -34,7 +35,7 @@ function normalizeTripConfig(raw = {}) {
     persistence: {
       ...(raw.persistence || {}),
       mode,
-      ...(mode === "d1" ? { apiBase, sharedCollections } : {})
+      ...(sharedMode ? { apiBase, sharedCollections } : {})
     }
   };
 }
@@ -978,7 +979,7 @@ async function init() {
       try {
         await loadSharedState();
       } catch (error) {
-        console.error(`${state.config.persistence.mode === "d1" ? "Shared" : "Local"} runtime data could not be loaded`, error);
+        console.error(`${["d1", "neon"].includes(state.config.persistence.mode) ? "Shared" : "Local"} runtime data could not be loaded`, error);
         state.todos = [];
         state.purchasedTickets = new Set();
       }
