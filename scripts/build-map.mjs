@@ -8,7 +8,8 @@ const MANIFEST_PATH = "assets/maps/templates/manifest.json";
 const GOLDEN = Object.freeze({
   width: 1448,
   height: 1086,
-  routeColors: ["#397dc1", "#e77e22", "#618344", "#209aaa", "#8865a5", "#df6185"],
+  geographicPadding: 58,
+  routeColors: ["#514366", "#625283", "#74658d", "#86789e", "#988bab", "#aa9eb9"],
   maxOverviewPlaces: 10
 });
 
@@ -34,6 +35,78 @@ function absolute(value, fallback) {
 
 async function readJson(file) {
   return JSON.parse(await fs.readFile(file, "utf8"));
+}
+
+function coordinatePairs(geometry) {
+  const pairs = [];
+  const visit = (value) => {
+    if (!Array.isArray(value)) return;
+    if (value.length >= 2 && Number.isFinite(value[0]) && Number.isFinite(value[1])) {
+      pairs.push(value);
+      return;
+    }
+    value.forEach(visit);
+  };
+  visit(geometry?.coordinates);
+  return pairs;
+}
+
+function featuresFrom(geojson) {
+  if (geojson.type === "FeatureCollection") return geojson.features;
+  if (geojson.type === "Feature") return [geojson];
+  return [{ type: "Feature", properties: {}, geometry: geojson }];
+}
+
+function geographicProjection(features, padding = GOLDEN.geographicPadding) {
+  const pairs = features.flatMap((feature) => coordinatePairs(feature.geometry));
+  if (!pairs.length) throw new Error("Boundary contains no usable coordinates");
+  const lngs = pairs.map(([lng]) => lng);
+  const lats = pairs.map(([, lat]) => lat);
+  const bounds = {
+    west: Math.min(...lngs),
+    south: Math.min(...lats),
+    east: Math.max(...lngs),
+    north: Math.max(...lats)
+  };
+  const longitudeScale = Math.cos((bounds.south + bounds.north) / 2 * Math.PI / 180);
+  const projectedWidth = (bounds.east - bounds.west) * longitudeScale;
+  const projectedHeight = bounds.north - bounds.south;
+  const scale = Math.min(
+    (GOLDEN.width - padding * 2) / projectedWidth,
+    (GOLDEN.height - padding * 2) / projectedHeight
+  );
+  const usedWidth = projectedWidth * scale;
+  const usedHeight = projectedHeight * scale;
+  const offsetX = (GOLDEN.width - usedWidth) / 2;
+  const offsetY = (GOLDEN.height - usedHeight) / 2;
+  return {
+    bounds,
+    longitudeScale,
+    padding,
+    project(lng, lat) {
+      return {
+        x: Number((offsetX + (lng - bounds.west) * longitudeScale * scale).toFixed(2)),
+        y: Number((offsetY + (bounds.north - lat) * scale).toFixed(2))
+      };
+    }
+  };
+}
+
+function ringPath(ring, project) {
+  return ring.map(([lng, lat], index) => {
+    const point = project(lng, lat);
+    return `${index ? "L" : "M"}${point.x} ${point.y}`;
+  }).join(" ") + " Z";
+}
+
+function geometryPath(geometry, project) {
+  if (geometry.type === "Polygon") return geometry.coordinates.map((ring) => ringPath(ring, project)).join(" ");
+  if (geometry.type === "MultiPolygon") return geometry.coordinates.flatMap((polygon) => polygon.map((ring) => ringPath(ring, project))).join(" ");
+  throw new Error(`Unsupported boundary geometry: ${geometry.type}`);
+}
+
+function escapeXml(value) {
+  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 }
 
 async function writeJsonAtomically(file, value) {
@@ -425,8 +498,105 @@ function mapDataForRegion(mapData, region, regionCount) {
   return { ...mapData, region, places, routes, dailyRoutes };
 }
 
-function buildRegion(mapData, manifest) {
+async function buildGeographicRegion(mapData) {
+  const boundaryFile = absolute(mapData.region.boundary);
+  const boundaryData = await readJson(boundaryFile);
+  const features = featuresFrom(boundaryData);
+  const projection = geographicProjection(features);
+  const regionId = String(mapData.region.id || "trip-map").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
+  const baseRelative = `assets/maps/generated-${regionId}.svg`;
+  const boundaryPaths = features.map((feature) => geometryPath(feature.geometry, projection.project));
+  const sourceLabel = boundaryData.source || "geoBoundaries gbOpen";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${GOLDEN.width} ${GOLDEN.height}" role="img" aria-labelledby="title desc">
+  <title id="title">${escapeXml(mapData.region.label)}真实行政边界地图</title>
+  <desc id="desc">基于 ${escapeXml(sourceLabel)} 的真实行政边界，采用等距圆柱投影。</desc>
+  <rect width="${GOLDEN.width}" height="${GOLDEN.height}" fill="#f7f6fc"/>
+  <g fill="#ffffff" stroke="#8f8998" stroke-width="3" stroke-linejoin="round" fill-rule="evenodd">
+    ${boundaryPaths.map((value) => `<path d="${value}"/>`).join("\n    ")}
+  </g>
+</svg>
+`;
+  await fs.writeFile(absolute(baseRelative), svg, "utf8");
+
+  const occupied = [{ x: 18, y: 18, width: 440, height: 120 }];
+  const renderedPlaces = mapData.places.map((place, index) => {
+    const geo = finiteGeo(place);
+    if (!geo) throw new Error(`Geographic map place lacks coordinates: ${place.id}`);
+    const point = projection.project(geo.lng, geo.lat);
+    const days = daysForPlace(place, mapData.routes);
+    const colored = { ...place, ...point, color: GOLDEN.routeColors[((days[0] || 1) - 1) % GOLDEN.routeColors.length] };
+    const label = labelFor(colored, index, occupied);
+    const primary = place.name || place.nameZh || place.id;
+    const secondary = place.nameZh && place.nameZh !== primary ? place.nameZh : null;
+    return {
+      id: place.id,
+      color: colored.color,
+      tx: Number(label.x.toFixed(2)),
+      ty: Number(label.y.toFixed(2)),
+      size: 24,
+      anchor: label.anchor,
+      lines: secondary ? [`${primary} /`, secondary] : [primary],
+      query: place.query || `${primary} ${mapData.region.label}`,
+      geo: place.geo,
+      days
+    };
+  });
+  const projectedPlaces = renderedPlaces.map((place) => ({ ...place, ...projection.project(place.geo.lng, place.geo.lat) }));
+  const placeById = new Map(projectedPlaces.map((place) => [place.id, place]));
+  const overviewPlaceIds = Array.isArray(mapData.overviewPlaceIds) && mapData.overviewPlaceIds.length
+    ? mapData.overviewPlaceIds.filter((id) => placeById.has(id))
+    : overviewPlaces(mapData.places, mapData.routes);
+  const overviewSet = new Set(overviewPlaceIds);
+  const routes = mapData.routes.map((route) => {
+    const ids = (route.placeIds || []).filter((id) => placeById.has(id));
+    const detailed = routePath(ids, placeById, route.day);
+    const overview = routePath(overviewRouteIds(ids, overviewSet), placeById, route.day);
+    return { day: route.day, color: GOLDEN.routeColors[(route.day - 1) % GOLDEN.routeColors.length], placeIds: ids, paths: detailed ? [detailed] : [], overviewPaths: overview ? [overview] : [] };
+  });
+  const dailyDefinitions = mapData.dailyRoutes?.length ? mapData.dailyRoutes : mapData.routes;
+  const dailyLayouts = Object.fromEntries(dailyDefinitions.map((daily) => {
+    const ids = (daily.placeIds || []).filter((id) => placeById.has(id));
+    const uniqueIds = [...new Set(ids)];
+    const labels = Object.fromEntries(uniqueIds.map((id) => {
+      const place = placeById.get(id);
+      return [id, { x: place.tx, y: place.ty, anchor: place.anchor }];
+    }));
+    const transport = ids.slice(0, -1).map((id, index) => ({ items: daily.scheduleItems?.[index] || [], ...midpoint(placeById.get(id), placeById.get(ids[index + 1])) }));
+    return [String(daily.day), { places: uniqueIds, labels, transport }];
+  }));
+  const days = [...new Set([...mapData.routes, ...dailyDefinitions].map((route) => route.day))].sort((a, b) => a - b);
+  return {
+    id: regionId,
+    label: mapData.region.label,
+    countryCode: mapData.region.countryCode,
+    scope: "administrative-boundary",
+    mapMode: "geographic-boundary",
+    days,
+    canvas: { width: GOLDEN.width, height: GOLDEN.height },
+    projection: {
+      type: "equirectangular-fit",
+      bounds: [projection.bounds.west, projection.bounds.south, projection.bounds.east, projection.bounds.north],
+      padding: projection.padding,
+      longitudeScale: Number(projection.longitudeScale.toFixed(8))
+    },
+    baseImage: baseRelative,
+    title: mapData.region.title || `${mapData.region.label} · 真实路线地图`,
+    ariaLabel: `${mapData.region.label}真实行政边界旅行路线图，共${days.length}天`,
+    description: mapData.region.description || `使用${mapData.region.label}真实行政边界及地点经纬度绘制的旅行路线。`,
+    disclaimer: mapData.disclaimer || "底图为真实行政边界，地点按经纬度投影；路线为地点间示意连线，不等同道路导航。",
+    heading: { text: mapData.region.heading || mapData.region.label, x: 54, y: 76, size: 30 },
+    legend: { hidden: true },
+    annotations: [],
+    routes,
+    places: renderedPlaces,
+    overviewPlaceIds,
+    dailyLayouts
+  };
+}
+
+async function buildRegion(mapData, manifest) {
   if (!mapData.places.length) return null;
+  if (mapData.region.boundary) return buildGeographicRegion(mapData);
   const selection = templateSelection(mapData, manifest);
   const template = selection.template;
   const points = separatePoints(projectedLayout(mapData.places, mapData.routes, template.safeArea), mapData.places, template.safeArea);
@@ -516,7 +686,9 @@ if (config.modules?.overview === false) {
   if (!Array.isArray(mapData.routes) || !mapData.routes.length) throw new Error("trip-data.json map.routes must contain routes");
 
   const definitions = destinationRegions(mapData, tripData);
-  const regions = definitions.map((definition) => buildRegion(mapDataForRegion(mapData, definition, definitions.length), manifest)).filter(Boolean);
+  const regions = (await Promise.all(definitions.map((definition) =>
+    buildRegion(mapDataForRegion(mapData, definition, definitions.length), manifest)
+  ))).filter(Boolean);
   if (!regions.length) throw new Error("No destination map regions contain usable places");
   for (const region of regions) await fs.access(absolute(region.baseImage));
   const output = {
@@ -527,5 +699,5 @@ if (config.modules?.overview === false) {
     routeMap: { defaultRegionId: regions.some((region) => region.id === mapData.defaultRegionId) ? mapData.defaultRegionId : regions[0].id, regions }
   };
   await writeJsonAtomically(outPath, output);
-  console.log(`Built ${path.relative(ROOT, outPath)} with ${regions.length} destination map region(s): ${regions.map((region) => `${region.label}=${region.templateId}`).join(", ")}.`);
+  console.log(`Built ${path.relative(ROOT, outPath)} with ${regions.length} destination map region(s): ${regions.map((region) => `${region.label}=${region.templateId || region.mapMode}`).join(", ")}.`);
 }

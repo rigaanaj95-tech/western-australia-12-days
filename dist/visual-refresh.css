@@ -31,3 +31,335 @@ html,body{background:#ffffff}body{font-family:'DM Sans',-apple-system,BlinkMacSy
 .hero-character video{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
 @media(min-width:701px) and (max-width:1000px){.hero-character{width:230px;height:235px;top:160px;right:12px}.hero-display{max-width:65%}}
 @media(max-width:700px){.hero-character{width:100px;height:100px;top:75px;right:16px}}
+
+/* Mobile layout: preserve the editorial direction without forcing desktop geometry. */
+@media (max-width: 700px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .topbar {
+    gap: 8px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .wordmark {
+    min-width: 0;
+    flex: 0 1 auto;
+    white-space: nowrap;
+  }
+
+  .wordmark span {
+    display: none;
+  }
+
+  .topbar .primary-navigation {
+    flex: 0 0 auto;
+    gap: 2px;
+  }
+
+  .travel-navigation summary,
+  .topbar .primary-navigation__ledger {
+    padding-inline: 8px;
+    font-size: 13px;
+  }
+
+  .travel-navigation-menu {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero,
+  .section,
+  .footer {
+    padding-left: max(18px, env(safe-area-inset-left, 0px));
+    padding-right: max(18px, env(safe-area-inset-right, 0px));
+  }
+
+  .ledger-app {
+    padding-left: max(18px, env(safe-area-inset-left, 0px));
+    padding-right: max(18px, env(safe-area-inset-right, 0px));
+  }
+
+  .hero {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .hero-display {
+    max-width: 100%;
+    font-size: clamp(42px, 13.5vw, 58px);
+    letter-spacing: 0;
+  }
+
+  .hero h1,
+  .section-heading h2,
+  .footer-note {
+    letter-spacing: 0;
+  }
+
+  .hero-character {
+    right: 12px;
+    width: 88px;
+    height: 88px;
+  }
+
+  .section-heading > div {
+    min-width: 0;
+  }
+
+  .section-heading h2 {
+    overflow-wrap: anywhere;
+  }
+
+  .flight-carousel {
+    width: 100%;
+  }
+
+  .flight-card {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .flight-flow,
+  .flight-stop,
+  .flight-segment {
+    min-width: 0;
+  }
+
+  .flight-stop__code {
+    overflow: hidden;
+    font-size: clamp(22px, 8vw, 30px);
+    letter-spacing: 0;
+    text-overflow: clip;
+  }
+
+  .route-region-tabs,
+  .route-day-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  .route-region-tabs::-webkit-scrollbar,
+  .route-day-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .route-region-tabs button,
+  .route-day-tabs button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .travel-map-scroll,
+  .travel-map-canvas,
+  .is-overview .travel-map-canvas,
+  .is-daily .travel-map-canvas {
+    max-width: 100%;
+  }
+
+  .ticket-dialog {
+    width: calc(100% - 20px);
+    max-height: calc(100dvh - 20px);
+    border-radius: 16px;
+  }
+
+  .ticket-dialog__body {
+    padding: 14px;
+  }
+
+  .place-map-sheet {
+    height: min(88dvh, 760px);
+  }
+
+  .footer-note {
+    font-size: clamp(28px, 10vw, 42px);
+  }
+}
+
+@media (max-width: 360px) {
+  .topbar {
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+  }
+
+  .travel-navigation summary,
+  .topbar .primary-navigation__ledger {
+    padding-inline: 6px;
+    font-size: 12px;
+  }
+
+  .hero,
+  .section,
+  .footer {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .ledger-app {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .hero-display {
+    font-size: clamp(40px, 13.5vw, 48px);
+  }
+
+  .hero-character {
+    right: 8px;
+    width: 76px;
+    height: 76px;
+  }
+
+  .flight-card {
+    min-height: 300px;
+    padding: 18px 16px;
+  }
+
+  .flight-stop__code {
+    font-size: 22px;
+  }
+
+  .schedule-item {
+    padding-left: 68px;
+  }
+
+  .schedule-time {
+    width: 50px;
+  }
+
+  .schedule-item::before {
+    left: 57px;
+  }
+
+  .schedule-item::after {
+    left: 53px;
+  }
+
+  .schedule-ticket {
+    grid-template-columns: 21px minmax(0, 1fr);
+  }
+
+  .schedule-ticket__open {
+    grid-column: 2;
+    width: max-content;
+    min-height: 32px;
+    border-left: 0;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .footer-note {
+    grid-column: 1;
+  }
+
+  .footer > a {
+    margin-top: 0;
+  }
+}
+
+/* Map visual system: match the site's quiet monochrome and lavender language. */
+.route-region-tabs {
+  margin-bottom: 12px;
+}
+
+.route-day-tabs {
+  width: max-content;
+  max-width: 100%;
+  margin-bottom: 14px;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.route-day-tabs button {
+  min-height: 34px;
+  color: var(--muted);
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.route-day-tabs button:hover {
+  color: var(--ink);
+}
+
+.route-day-tabs button:active {
+  transform: translateY(1px);
+}
+
+.route-day-tabs button[aria-pressed='true'] {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.route-day-tabs i {
+  width: 7px;
+  height: 7px;
+}
+
+.travel-map-scroll {
+  border: 1px solid #ece9f2;
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.travel-map-canvas {
+  background: var(--surface);
+}
+
+.map-utility {
+  gap: 20px;
+  margin: 10px 2px 16px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.map-utility span {
+  max-width: 760px;
+}
+
+.map-utility button {
+  flex: 0 0 auto;
+  min-height: 36px;
+  color: var(--ink);
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.map-utility button:hover {
+  color: var(--lake);
+}
+
+.map-utility button:active {
+  transform: translateY(1px);
+}
+
+.map-place-dot span {
+  border-color: var(--paper);
+  box-shadow: 0 0 0 1px var(--route-color);
+}
+
+.transport-pin {
+  border-color: var(--line);
+  background: var(--paper);
+  box-shadow: none;
+}
+
+@media (max-width: 700px) {
+  .route-day-tabs {
+    width: 100%;
+  }
+
+  .map-utility {
+    align-items: flex-start;
+  }
+}

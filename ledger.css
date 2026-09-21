@@ -166,6 +166,13 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 }
 .ledger-entry-card { margin-top: 27px; padding: 20px; }
 .ledger-bill-form { margin-top: 19px; }
+.ledger-status-fieldset { margin-top: 0; }
+.ledger-status-control { width: min(100%, 310px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 10px; background: var(--surface, #f7f6fc); }
+.ledger-status-control label { position: relative; min-width: 0; cursor: pointer; }
+.ledger-status-control input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.ledger-status-control span { min-height: 38px; display: grid; place-items: center; border-radius: 7px; color: var(--muted, #666372); font-size: 12px; font-weight: 700; }
+.ledger-status-control input:checked + span { color: var(--ink); background: #fff; box-shadow: 0 1px 4px rgba(8,9,9,.08); }
+.ledger-status-control input:focus-visible + span { outline: 2px solid var(--lake); outline-offset: 2px; }
 .ledger-amount-block { width: min(100%, 310px); display: grid; grid-template-columns: minmax(108px, 124px) minmax(0, 176px); align-items: start; gap: 10px; padding-bottom: 0; border-bottom: 0; }
 .ledger-field, .ledger-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
 .ledger-field-label, .ledger-fieldset legend { display: block; margin-bottom: 7px; color: #788688; font-size: 11px; line-height: 1.3; font-weight: 720; }
@@ -186,9 +193,9 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-category-choice { position: relative; min-height: 43px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 9px; color: #768386; background: #f7f9f8; cursor: pointer; font-size: 10px; font-weight: 680; white-space: nowrap; }
 .ledger-category-input, .ledger-person-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .ledger-category-choice:has(input:checked) { border-color: #c6dde0; color: var(--lake); background: #e7f2f3; }
-.ledger-note-field, .ledger-date-field { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: center; gap: 10px; padding: 14px 0 0; border-top: 0; }
-.ledger-note-field .ledger-field-label, .ledger-date-field .ledger-field-label { margin: 0; }
-.ledger-note-field .ledger-input, .ledger-date-field .ledger-input { min-height: 40px; box-sizing: border-box; border: 1px solid rgba(19,38,47,.13); border-radius: 10px; padding: 0 12px; text-align: left; color: var(--ink); background: #fff; font-size: 13px; }
+.ledger-note-field, .ledger-payment-note-field, .ledger-date-field { display: grid; grid-template-columns: 118px minmax(0, 1fr); align-items: center; gap: 10px; padding: 14px 0 0; border-top: 0; }
+.ledger-note-field .ledger-field-label, .ledger-payment-note-field .ledger-field-label, .ledger-date-field .ledger-field-label { margin: 0; }
+.ledger-note-field .ledger-input, .ledger-payment-note-field .ledger-input, .ledger-date-field .ledger-input { min-height: 40px; box-sizing: border-box; border: 1px solid rgba(19,38,47,.13); border-radius: 10px; padding: 0 12px; text-align: left; color: var(--ink); background: #fff; font-size: 13px; }
 .ledger-fieldset-heading { display: flex; align-items: center; justify-content: space-between; }
 .ledger-fieldset-heading legend { margin-bottom: 0; }
 .ledger-person-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 8px; margin-top: 10px; }
@@ -213,9 +220,20 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-list-total { display: grid; justify-items: end; gap: 3px; }
 .ledger-list-total span { color: #8c999a; font-size: 10px; }
 .ledger-list-total strong { font-size: 21px; line-height: 1; letter-spacing: -.035em; }
+.ledger-bill-groups { border-top: 1px solid rgba(19,38,47,.1); }
+.ledger-bill-group + .ledger-bill-group { border-top: 8px solid var(--surface, #f7f6fc); }
+.ledger-bill-group-heading { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: #fff; }
+.ledger-bill-group-heading > div { display: flex; align-items: baseline; gap: 7px; min-width: 0; }
+.ledger-bill-group-heading strong { font-size: 13px; }
+.ledger-bill-group-heading span { color: var(--muted, #666372); font-size: 10px; }
+.ledger-bill-group-heading > b { white-space: nowrap; font-size: 14px; }
 .ledger-bill-row { position: relative; padding: 15px 16px 12px; border-top: 1px solid rgba(19,38,47,.1); }
+.ledger-bill-row-planned { background: #fbfafd; }
 .ledger-bill-main { display: flex; justify-content: space-between; gap: 12px; }
 .ledger-bill-title-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ledger-bill-heading-line { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.ledger-status-badge { display: inline-flex; align-items: center; min-height: 20px; padding: 0 7px; border-radius: 999px; color: #4f4267; background: var(--lake-soft, #e8e2f5); font-size: 9px; font-weight: 700; white-space: nowrap; }
+.ledger-status-badge[data-ledger-status="paid"] { color: #3e6349; background: #e7f0e8; }
 .ledger-category-mark { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: var(--lake); }
 .ledger-category-mark[data-ledger-category="餐饮"] { background: #d46f47; }
 .ledger-category-mark[data-ledger-category="交通"] { background: #4c8da0; }
@@ -224,6 +242,7 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-category-mark[data-ledger-category="购物"] { background: #608967; }
 .ledger-bill-title-row h3 { font-size: 14px; font-weight: 760; }
 .ledger-bill-title-row p { margin-top: 4px; color: #95a0a1; font-size: 10px; }
+.ledger-bill-title-row .ledger-payment-note { max-width: 420px; color: var(--muted, #666372); line-height: 1.45; overflow-wrap: anywhere; }
 .ledger-bill-amount { display: grid; justify-items: end; gap: 3px; text-align: right; }
 .ledger-bill-amount strong { font-size: 16px; font-weight: 760; }
 .ledger-bill-amount span { color: var(--lake); font-size: 10px; }
@@ -233,10 +252,17 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-row-actions { display: flex; justify-content: flex-end; gap: 4px; margin-top: 3px; }
 .ledger-row-actions .ledger-text-button { min-height: 28px; padding-inline: 5px; font-size: 10px; }
 .ledger-empty-state { padding: 23px 16px; color: #8b9899; font-size: 12px; line-height: 1.5; text-align: center; }
+.ledger-empty-state p { max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
 
 .ledger-stats-overview { margin-top: 28px; padding: 18px 20px; }
-.ledger-stats-overview h2 { margin-top: 7px; font-size: clamp(26px, 8vw, 32px); line-height: 1; letter-spacing: -.045em; }
-.ledger-stats-overview > span { display: block; margin-top: 8px; color: #899697; font-size: 10px; }
+.ledger-stats-overview h2 { margin-top: 7px; font-size: clamp(22px, 7vw, 30px); line-height: 1.15; letter-spacing: 0; }
+.ledger-stats-summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }
+.ledger-stats-summary-grid > div { min-width: 0; display: grid; align-content: space-between; gap: 8px; min-height: 82px; padding: 12px; border-radius: 10px; background: var(--surface, #f7f6fc); }
+.ledger-stats-summary-grid span { color: var(--muted, #666372); font-size: 10px; }
+.ledger-stats-summary-grid strong { min-width: 0; font-size: clamp(14px, 2.4vw, 18px); line-height: 1.15; overflow-wrap: anywhere; }
+.ledger-stats-summary-grid .ledger-stats-summary-primary { color: #fff; background: var(--lake, #625283); }
+.ledger-stats-summary-grid .ledger-stats-summary-primary span { color: rgba(255,255,255,.75); }
+.ledger-stats-caption { margin-top: 12px; color: #899697; font-size: 10px; line-height: 1.5; }
 .ledger-settlement-section, .ledger-member-stats-section { margin-top: 30px; }
 .ledger-transfer-list { margin-top: 14px; overflow: hidden; }
 .ledger-transfer-row { min-height: 76px; display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 11px; padding: 12px 16px; border-top: 1px solid rgba(19,38,47,.1); }
@@ -263,6 +289,7 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-neutral strong { color: #869394; }
 .ledger-member-stat-body { padding: 0 16px 15px; }
 .ledger-member-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 12px 0; border-top: 1px solid rgba(19,38,47,.08); }
+.ledger-member-metrics-with-budget { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .ledger-member-metrics div { display: grid; gap: 5px; }
 .ledger-member-metrics dt { color: #9aa7a8; font-size: 9px; }
 .ledger-member-metrics dd { margin: 0; font-size: 14px; font-weight: 730; }
@@ -334,7 +361,9 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
   .ledger-header-actions { flex-direction: column-reverse; align-items: flex-end; gap: 0; }
   .ledger-header-actions .ledger-text-button { min-height: 31px; }
   .ledger-entry-card { padding: 17px 15px; }
-  .ledger-note-field, .ledger-date-field { grid-template-columns: 76px minmax(0, 1fr); gap: 8px; }
+  .ledger-note-field, .ledger-payment-note-field, .ledger-date-field { grid-template-columns: 1fr; gap: 6px; }
+  .ledger-stats-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ledger-member-metrics-with-budget { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; }
   .ledger-member-edit-row { grid-template-columns: 36px minmax(0, 1fr) 32px auto; }
   .ledger-member-edit-row .ledger-icon-button { grid-column: 4; grid-row: 1; }
   .ledger-member-edit-row .ledger-text-button { grid-column: 4; grid-row: 2; }
@@ -342,6 +371,11 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
   .ledger-add-member-form .ledger-secondary-button { grid-column: 2 / -1; }
 }
 @media (max-width: 360px) {
+  .ledger-bill-main { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .ledger-bill-amount { justify-items: start; text-align: left; }
+  .ledger-bill-amount strong { font-size: 14px; }
+  .ledger-bill-group-heading, .ledger-bill-row { padding-inline: 12px; }
+  .ledger-empty-state { text-align: left; }
   .ledger-member-metrics { gap: 5px; }
   .ledger-member-metrics dd { font-size: 13px; }
   .ledger-member-metrics dt { font-size: 8px; }
@@ -421,4 +455,118 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
   .ledger-member-edit-row .ledger-avatar { width: 36px; height: 36px; font-size: 14px; }
   .ledger-member-edit-row-static .ledger-member-edit-actions { gap: 0; }
   .ledger-member-edit-actions .ledger-text-button, .ledger-member-edit-actions .ledger-icon-button { padding-inline: 4px; }
+}
+
+@media (max-width: 360px) {
+  .ledger-bill-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ledger-bill-amount {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .ledger-page-header {
+    gap: 10px;
+  }
+
+  .ledger-page-header h1 {
+    font-size: 29px;
+    letter-spacing: 0;
+  }
+
+  .ledger-tabs {
+    gap: 20px;
+  }
+
+  .ledger-entry-card {
+    padding-inline: 14px;
+  }
+
+  .ledger-amount-block {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ledger-category-grid,
+  .ledger-person-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .ledger-category-choice {
+    min-height: 44px;
+    white-space: normal;
+  }
+
+  .ledger-person-choice {
+    width: 100%;
+    justify-self: center;
+  }
+
+  .ledger-note-field,
+  .ledger-payment-note-field,
+  .ledger-date-field {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .ledger-dialog {
+    width: calc(100% - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 16px;
+  }
+
+  .ledger-dialog-header {
+    padding: 18px 14px 13px;
+  }
+
+  .ledger-dialog-body {
+    padding: 14px;
+  }
+
+  .ledger-member-edit-row-is-open {
+    grid-template-columns: 36px minmax(0, 1fr) 34px;
+  }
+
+  .ledger-member-edit-row-is-open .ledger-input {
+    grid-column: 2 / -1;
+  }
+
+  .ledger-member-edit-row-is-open .ledger-color-picker {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+  }
+
+  .ledger-member-edit-row-is-open .ledger-text-button {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .ledger-member-edit-row-is-open .ledger-icon-button {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .ledger-add-member-form {
+    grid-template-columns: 42px minmax(0, 1fr) 34px;
+  }
+
+  .ledger-add-member-form .ledger-secondary-button {
+    grid-column: 2 / -1;
+  }
+
+  .ledger-transfer-row {
+    gap: 8px;
+    padding-inline: 12px;
+  }
+
+  .ledger-member-stat-summary,
+  .ledger-member-stat-body {
+    padding-inline: 13px;
+  }
 }
