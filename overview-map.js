@@ -1,7 +1,7 @@
 /* Golden map renderer with frozen backgrounds and deterministic trip overlays. */
 const demoRouteLayers = [];
 const demoPlaceLayers = [];
-const MAP_ROUTE_PALETTE = ["#397dc1", "#e77e22", "#618344", "#209aaa", "#8865a5", "#df6185"];
+const MAP_ROUTE_PALETTE = ["#514366", "#625283", "#74658d", "#86789e", "#988bab", "#aa9eb9"];
 
 function travelMapRegions(routeMap) {
   if (Array.isArray(routeMap?.regions) && routeMap.regions.length) {
@@ -57,6 +57,24 @@ function projectGeoPoint(geo, source) {
   if (!bounds || !Number.isFinite(longitude) || !Number.isFinite(latitude)) return null;
   const canvas = source.canvas || { width: 1448, height: 1086 };
   const padding = Number(source?.projection?.padding ?? 74);
+  if (source?.projection?.type === "equirectangular-fit") {
+    const longitudeScale = Number(source.projection.longitudeScale)
+      || Math.cos((bounds.south + bounds.north) / 2 * Math.PI / 180);
+    const projectedWidth = (bounds.east - bounds.west) * longitudeScale;
+    const projectedHeight = bounds.north - bounds.south;
+    const scale = Math.min(
+      (canvas.width - padding * 2) / projectedWidth,
+      (canvas.height - padding * 2) / projectedHeight
+    );
+    const usedWidth = projectedWidth * scale;
+    const usedHeight = projectedHeight * scale;
+    const offsetX = (canvas.width - usedWidth) / 2;
+    const offsetY = (canvas.height - usedHeight) / 2;
+    return {
+      x: offsetX + (longitude - bounds.west) * longitudeScale * scale,
+      y: offsetY + (bounds.north - latitude) * scale
+    };
+  }
   const width = Math.max(1, canvas.width - padding * 2);
   const height = Math.max(1, canvas.height - padding * 2);
   return {
@@ -152,15 +170,15 @@ function travelOverviewArtwork(days, source = {}, options = {}) {
     .map((line, index) => `<tspan x="${x}" dy="${index ? lineHeight : 0}">${esc(line)}</tspan>`)
     .join("");
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="0 0 ${canvas.width} ${canvas.height}" role="img" aria-label="${esc(source.ariaLabel || "虚构示例旅行路线图")}" data-overview-version="2">
-  <title>${esc(source.title || "虚构示例旅行路线")}</title>
-  <desc>${esc(source.description || "原创虚构底图、旅行路线、地点标记和日期图例。")}</desc>
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="0 0 ${canvas.width} ${canvas.height}" role="img" aria-label="${esc(source.ariaLabel || "旅行路线地图")}" data-overview-version="2">
+  <title>${esc(source.title || "旅行路线地图")}</title>
+  <desc>${esc(source.description || "旅行区域底图、路线、地点标记和日期图例。")}</desc>
   <g id="overview-background" inkscape:groupmode="layer" inkscape:label="底图"><image href="${esc(baseHref)}" width="${canvas.width}" height="${canvas.height}" preserveAspectRatio="none"/></g>
-  ${routeLayers.map((route) => `<g id="overview-route-${route.day}" inkscape:groupmode="layer" inkscape:label="${esc(days.find((day) => day.day === route.day)?.date || route.day)}" data-date="${esc(days.find((day) => day.day === route.day)?.date || "")}" fill="none" stroke-linecap="round" stroke-linejoin="round">${pathsFor(route).map((path) => `<path d="${esc(path)}" stroke="${esc(route.color)}" stroke-width="7"/><path d="${esc(path)}" stroke="#ffffff" stroke-opacity=".22" stroke-width="2"/>`).join("")}</g>`).join("")}
-  <g id="overview-markers" inkscape:groupmode="layer" inkscape:label="地点标记">${placeLayers.map((place) => `<circle id="overview-point-${esc(place.id)}" cx="${place.x}" cy="${place.y}" r="10.5" fill="${esc(place.color)}" stroke="#fafaf4" stroke-width="2.5"/>`).join("")}</g>
-  <g id="overview-place-names" inkscape:groupmode="layer" inkscape:label="地点名称" fill="#092653" stroke="#092653" stroke-width="0.4" stroke-linejoin="round" paint-order="stroke fill" font-family="'Times New Roman', 'Kaiti SC', STKaiti, KaiTi, 'Songti SC', serif" font-weight="700">${placeLayers.map((place) => `<text id="overview-label-${esc(place.id)}" x="${place.tx}" y="${place.ty}" text-anchor="${esc(place.anchor || "start")}" font-size="${place.size}">${multilineText(place.lines, place.tx)}</text>`).join("")}</g>
-  <g id="overview-geographic-names" inkscape:groupmode="layer" inkscape:label="地理名称" fill="#2765a0" stroke="#2765a0" stroke-width="0.2" stroke-linejoin="round" paint-order="stroke fill" font-family="'Times New Roman',serif" font-style="italic">${annotations.map((annotation) => `<text x="${annotation.x}" y="${annotation.y}" font-size="${annotation.size || 18}" text-anchor="${esc(annotation.anchor || "start")}">${multilineText(annotation.lines || [annotation.text], annotation.x, annotation.lineHeight || 22)}</text>`).join("")}</g>
-  <g id="overview-heading" inkscape:groupmode="layer" inkscape:label="标题"><text x="${heading.x}" y="${heading.y}" fill="#092653" stroke="#092653" stroke-width="0.4" stroke-linejoin="round" paint-order="stroke fill" font-size="${heading.size || 40}" font-weight="700" font-family="'Times New Roman', 'Kaiti SC', STKaiti, KaiTi, 'Songti SC', serif">${esc(heading.text)}</text></g>
-  <g id="overview-date-legend" inkscape:groupmode="layer" inkscape:label="透明日期图例" font-family="'Times New Roman',serif" font-size="23" font-weight="700" fill="#092653" stroke="#092653" stroke-width="0.4" stroke-linejoin="round" paint-order="stroke fill">${routeLayers.map((route, index) => { const date = days.find((day) => day.day === route.day)?.date; if (!date) return ""; const y = legend.y + index * legend.gap; return `<g data-date="${esc(date)}"><path d="M${legend.x} ${y - 7} h28" fill="none" stroke="${esc(route.color)}" stroke-width="5" stroke-linecap="round"/><text x="${legend.x + 41}" y="${y}">${Number(date.slice(5, 7))}/${Number(date.slice(8))}</text></g>`; }).join("")}</g>
+  ${routeLayers.map((route) => `<g id="overview-route-${route.day}" inkscape:groupmode="layer" inkscape:label="${esc(days.find((day) => day.day === route.day)?.date || route.day)}" data-date="${esc(days.find((day) => day.day === route.day)?.date || "")}" fill="none" stroke-linecap="round" stroke-linejoin="round">${pathsFor(route).map((path) => `<path d="${esc(path)}" stroke="#ffffff" stroke-opacity=".78" stroke-width="8"/><path d="${esc(path)}" stroke="${esc(route.color)}" stroke-width="5"/>`).join("")}</g>`).join("")}
+  <g id="overview-markers" inkscape:groupmode="layer" inkscape:label="地点标记">${placeLayers.map((place) => `<circle id="overview-point-${esc(place.id)}" cx="${place.x}" cy="${place.y}" r="9" fill="${esc(place.color)}" stroke="#ffffff" stroke-width="3"/>`).join("")}</g>
+  <g id="overview-place-names" inkscape:groupmode="layer" inkscape:label="地点名称" fill="#080909" font-family="'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif" font-weight="600">${placeLayers.map((place) => `<text id="overview-label-${esc(place.id)}" x="${place.tx}" y="${place.ty}" text-anchor="${esc(place.anchor || "start")}" font-size="${place.size}">${multilineText(place.lines, place.tx)}</text>`).join("")}</g>
+  <g id="overview-geographic-names" inkscape:groupmode="layer" inkscape:label="地理名称" fill="#666372" font-family="'DM Sans', 'PingFang SC', sans-serif">${annotations.map((annotation) => `<text x="${annotation.x}" y="${annotation.y}" font-size="${annotation.size || 18}" text-anchor="${esc(annotation.anchor || "start")}">${multilineText(annotation.lines || [annotation.text], annotation.x, annotation.lineHeight || 22)}</text>`).join("")}</g>
+  <g id="overview-heading" inkscape:groupmode="layer" inkscape:label="标题"><text x="${heading.x}" y="${heading.y}" fill="#080909" font-size="${heading.size || 30}" font-weight="700" font-family="'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif">${esc(heading.text)}</text></g>
+  ${legend.hidden ? "" : `<g id="overview-date-legend" inkscape:groupmode="layer" inkscape:label="日期图例" font-family="'DM Sans',sans-serif" font-size="20" font-weight="500" fill="#666372">${routeLayers.map((route, index) => { const date = days.find((day) => day.day === route.day)?.date; if (!date) return ""; const y = legend.y + index * legend.gap; return `<g data-date="${esc(date)}"><path d="M${legend.x} ${y - 7} h28" fill="none" stroke="${esc(route.color)}" stroke-width="4" stroke-linecap="round"/><text x="${legend.x + 41}" y="${y}">${Number(date.slice(5, 7))}/${Number(date.slice(8))}</text></g>`; }).join("")}</g>`}
   </svg>`;
 }

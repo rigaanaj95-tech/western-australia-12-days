@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const STORAGE_VERSION = 1;
+  const STORAGE_VERSION = 2;
   const DEFAULT_SETTINGS = Object.freeze({
     baseCurrency: "CNY",
     commonCurrencies: ["EUR", "CHF", "HKD"],
@@ -280,12 +280,13 @@
       const originalAmountCents = Number(bill?.originalAmountCents);
       const baseAmountCents = Number(bill?.baseAmountCents);
       const currency = String(bill?.currency || baseCurrency).toUpperCase();
+      const status = bill?.status === "planned" ? "planned" : "paid";
       const payerId = String(bill?.payerId || "");
       const participantIds = [...new Set(Array.isArray(bill?.participantIds) ? bill.participantIds.map(String) : [])]
         .filter((id) => travelerIds.has(id));
       if (!Number.isSafeInteger(originalAmountCents) || originalAmountCents <= 0) return [];
       if (!Number.isSafeInteger(baseAmountCents) || baseAmountCents <= 0) return [];
-      if (!CURRENCY_BY_CODE.has(currency) || !travelerIds.has(payerId) || !participantIds.length) return [];
+      if (!CURRENCY_BY_CODE.has(currency) || (status === "paid" && !travelerIds.has(payerId)) || !participantIds.length) return [];
       const category = CATEGORIES.includes(bill?.category) ? bill.category : "其他";
       return [{
         id: String(bill.id || makeId("bill")),
@@ -293,9 +294,11 @@
         baseAmountCents,
         currency,
         category,
+        status,
         note: typeof bill.note === "string" ? bill.note.trim().slice(0, 160) : "",
+        paymentNote: typeof bill.paymentNote === "string" ? bill.paymentNote.trim().slice(0, 160) : "",
         orderedAt: typeof bill.orderedAt === "string" ? bill.orderedAt : "",
-        payerId,
+        payerId: travelerIds.has(payerId) ? payerId : "",
         participantIds,
         createdAt: typeof bill.createdAt === "string" ? bill.createdAt : new Date().toISOString(),
         updatedAt: typeof bill.updatedAt === "string" ? bill.updatedAt : new Date().toISOString()
@@ -535,11 +538,21 @@
       traveler,
       paidCents: 0,
       owedCents: 0,
+      plannedShareCents: 0,
       netCents: 0,
       billIds: []
     }));
     const byId = new Map(members.map((entry) => [entry.traveler.id, entry]));
     ledgerData.bills.forEach((bill) => {
+      if (bill.status === "planned") {
+        billShares(bill).forEach((amount, participantId) => {
+          const member = byId.get(participantId);
+          if (!member) return;
+          member.plannedShareCents += amount;
+          member.billIds.push(bill.id);
+        });
+        return;
+      }
       const payer = byId.get(bill.payerId);
       if (payer) {
         payer.paidCents += bill.baseAmountCents;
@@ -602,8 +615,19 @@
       toId: creditors[transfer.creditorIndex].id,
       amountCents: transfer.amountCents
     }));
+    const paidTotalCents = ledgerData.bills
+      .filter((bill) => bill.status === "paid")
+      .reduce((sum, bill) => sum + bill.baseAmountCents, 0);
+    const plannedTotalCents = ledgerData.bills
+      .filter((bill) => bill.status === "planned")
+      .reduce((sum, bill) => sum + bill.baseAmountCents, 0);
+    const projectedTotalCents = paidTotalCents + plannedTotalCents;
     return {
-      totalCents: ledgerData.bills.reduce((sum, bill) => sum + bill.baseAmountCents, 0),
+      totalCents: paidTotalCents,
+      paidTotalCents,
+      plannedTotalCents,
+      projectedTotalCents,
+      projectedPerPersonCents: members.length ? Math.round(projectedTotalCents / members.length) : 0,
       members,
       transfers
     };
@@ -646,6 +670,7 @@
     );
     const selectedPayerId = editingBill?.payerId || draft?.payerId || "";
     const selectedCategory = editingBill?.category || draft?.category || "餐饮";
+    const selectedStatus = editingBill?.status || draft?.status || "paid";
     return `
       <section class="ledger-entry-card" aria-labelledby="ledger-bill-form-title">
         <div class="ledger-section-heading">
@@ -657,6 +682,19 @@
         </div>
         ${ledgerData.travelers.length ? `
           <form class="ledger-bill-form" data-ledger-form="bill" novalidate>
+            <fieldset class="ledger-fieldset ledger-status-fieldset">
+              <legend class="ledger-field-label">账单状态</legend>
+              <div class="ledger-status-control">
+                <label>
+                  <input type="radio" name="status" value="paid" ${selectedStatus === "paid" ? "checked" : ""}>
+                  <span>已支付</span>
+                </label>
+                <label>
+                  <input type="radio" name="status" value="planned" ${selectedStatus === "planned" ? "checked" : ""}>
+                  <span>待付预算</span>
+                </label>
+              </div>
+            </fieldset>
             <div class="ledger-amount-block">
               <label class="ledger-field ledger-field-currency">
                 <span class="ledger-field-label">币种</span>
@@ -692,8 +730,13 @@
             </fieldset>
 
             <label class="ledger-field ledger-note-field">
-              <span class="ledger-field-label">备注 <small>选填</small></span>
+              <span class="ledger-field-label">具体项目 <small>选填</small></span>
               <input class="ledger-input" type="text" name="note" maxlength="160" autocomplete="off" placeholder="例如：米兰大教堂门票" value="${escapeAttribute(editingBill?.note || draft?.note || "")}">
+            </label>
+
+            <label class="ledger-field ledger-payment-note-field">
+              <span class="ledger-field-label">付款方式 / 说明 <small>选填</small></span>
+              <input class="ledger-input" type="text" name="paymentNote" maxlength="160" autocomplete="off" placeholder="例如：信用卡、现场支付或价格待确认" value="${escapeAttribute(editingBill?.paymentNote || draft?.paymentNote || "")}">
             </label>
 
             <label class="ledger-field ledger-date-field">
@@ -702,7 +745,7 @@
             </label>
 
             <fieldset class="ledger-fieldset">
-              <legend class="ledger-field-label">买单人 <small>单选</small></legend>
+              <legend class="ledger-field-label">买单人 <small>待付预算可暂不选</small></legend>
               <div class="ledger-person-grid">
                 ${ledgerData.travelers.map((traveler) => renderPersonChoice(traveler, "radio", "payerId", selectedPayerId === traveler.id)).join("")}
               </div>
@@ -747,13 +790,13 @@
     const value = options.value ?? bill.note ?? "";
     return editing ? `
       <form class="ledger-bill-note-form" data-ledger-form="bill-note" data-ledger-id="${escapeAttribute(bill.id)}">
-        <span>备注：</span>
+        <span>项目：</span>
         <input name="note" maxlength="160" autocomplete="off" value="${escapeAttribute(value)}" placeholder="暂无">
-        <button type="submit" aria-label="保存备注">✓</button>
-        <button type="button" data-ledger-action="cancel-note-edit" aria-label="取消修改备注">×</button>
+        <button type="submit" aria-label="保存项目名称">✓</button>
+        <button type="button" data-ledger-action="cancel-note-edit" aria-label="取消修改项目名称">×</button>
       </form>` : `
-      <button class="ledger-bill-note-trigger" type="button" data-ledger-action="edit-bill-note" data-ledger-id="${escapeAttribute(bill.id)}" aria-label="编辑备注：${escapeAttribute(bill.note || "暂无")}">
-        <span>备注：</span><span>${escapeHtml(bill.note || "暂无")}</span>
+      <button class="ledger-bill-note-trigger" type="button" data-ledger-action="edit-bill-note" data-ledger-id="${escapeAttribute(bill.id)}" aria-label="编辑项目名称：${escapeAttribute(bill.note || "暂无")}">
+        <span>项目：</span><span>${escapeHtml(bill.note || "暂无")}</span>
       </button>`;
   }
 
@@ -841,14 +884,19 @@
     const payer = travelerById(bill.payerId);
     const participants = bill.participantIds.map(travelerById).filter(Boolean);
     const baseCurrency = ledgerData.settings.baseCurrency;
+    const isPlanned = bill.status === "planned";
     return `
-      <article class="ledger-bill-row" data-ledger-bill-id="${escapeAttribute(bill.id)}">
+      <article class="ledger-bill-row ${isPlanned ? "ledger-bill-row-planned" : ""}" data-ledger-bill-id="${escapeAttribute(bill.id)}">
         <div class="ledger-bill-main">
           <div class="ledger-bill-title-row">
             <span class="ledger-category-mark" data-ledger-category="${escapeAttribute(bill.category)}" aria-hidden="true"></span>
             <div>
-              <h3>${escapeHtml(bill.category)}</h3>
+              <div class="ledger-bill-heading-line">
+                <h3>${escapeHtml(bill.category)}</h3>
+                <span class="ledger-status-badge" data-ledger-status="${escapeAttribute(bill.status)}">${isPlanned ? "待付预算" : "已支付"}</span>
+              </div>
               ${renderBillNoteControl(bill)}
+              ${bill.paymentNote ? `<p class="ledger-payment-note">付款：${escapeHtml(bill.paymentNote)}</p>` : ""}
               ${bill.orderedAt ? `<p class="ledger-bill-date">${escapeHtml(formatBillDate(bill.orderedAt))}</p>` : ""}
             </div>
           </div>
@@ -859,9 +907,8 @@
         </div>
         <div class="ledger-bill-people">
           <div class="ledger-bill-payer">
-            <span>买单</span>
-            ${renderAvatar(payer, "small")}
-            <b>${escapeHtml(payer?.name || "")}</b>
+            <span>${isPlanned ? "预计付款" : "买单"}</span>
+            ${payer ? `${renderAvatar(payer, "small")}<b>${escapeHtml(payer.name)}</b>` : `<b>待确认</b>`}
           </div>
           <div class="ledger-bill-participants" aria-label="参与分账：${escapeAttribute(participants.map((person) => person.name).join("、"))}">
             <span>分账</span>
@@ -878,12 +925,23 @@
 
   function renderBillList() {
     const baseCurrency = ledgerData.settings.baseCurrency;
-    const totalCents = ledgerData.bills.reduce((sum, bill) => sum + bill.baseAmountCents, 0);
     const bills = [...ledgerData.bills].sort((first, second) => {
       const firstDate = first.orderedAt || first.createdAt;
       const secondDate = second.orderedAt || second.createdAt;
       return secondDate.localeCompare(firstDate);
     });
+    const paidBills = bills.filter((bill) => bill.status === "paid");
+    const plannedBills = bills.filter((bill) => bill.status === "planned");
+    const paidTotalCents = paidBills.reduce((sum, bill) => sum + bill.baseAmountCents, 0);
+    const plannedTotalCents = plannedBills.reduce((sum, bill) => sum + bill.baseAmountCents, 0);
+    const renderGroup = (title, groupBills, totalCents, status) => groupBills.length ? `
+      <section class="ledger-bill-group" data-ledger-group="${status}" aria-label="${title}">
+        <div class="ledger-bill-group-heading">
+          <div><strong>${title}</strong><span>${groupBills.length} 笔</span></div>
+          <b>${escapeHtml(formatMoney(totalCents, baseCurrency))}</b>
+        </div>
+        <div class="ledger-bill-list">${groupBills.map(renderBillRow).join("")}</div>
+      </section>` : "";
     return `
       <section class="ledger-list-section" aria-labelledby="ledger-list-title">
         <div class="ledger-section-heading ledger-list-heading">
@@ -892,12 +950,15 @@
             <h2 id="ledger-list-title">${bills.length ? `${bills.length} 笔账单` : "还没有账单"}</h2>
           </div>
           <div class="ledger-list-total">
-            <span>总支出</span>
-            <strong>${escapeHtml(formatMoney(totalCents, baseCurrency))}</strong>
+            <span>预计总额</span>
+            <strong>${escapeHtml(formatMoney(paidTotalCents + plannedTotalCents, baseCurrency))}</strong>
           </div>
         </div>
         ${bills.length
-          ? `<div class="ledger-bill-list">${bills.map(renderBillRow).join("")}</div>`
+          ? `<div class="ledger-bill-groups">
+              ${renderGroup("已支付", paidBills, paidTotalCents, "paid")}
+              ${renderGroup("待付 / 预算", plannedBills, plannedTotalCents, "planned")}
+            </div>`
           : `<div class="ledger-empty-state"><p>记下第一笔花费后，账单会显示在这里。</p></div>`}
       </section>`;
   }
@@ -928,8 +989,8 @@
       const share = billShares(bill).get(member.traveler.id) || 0;
       return `
         <div class="ledger-member-bill">
-          <span>${escapeHtml(bill.category)}${bill.payerId === member.traveler.id ? " · 买单" : ""}</span>
-          <span>${share ? `分摊 ${escapeHtml(formatMoney(share, ledgerData.settings.baseCurrency))}` : "未参与分摊"}</span>
+          <span>${bill.status === "planned" ? "预算 · " : ""}${escapeHtml(bill.note || bill.category)}${bill.payerId === member.traveler.id && bill.status === "paid" ? " · 买单" : ""}</span>
+          <span>${share ? `${bill.status === "planned" ? "预计" : "分摊"} ${escapeHtml(formatMoney(share, ledgerData.settings.baseCurrency))}` : "未参与分摊"}</span>
         </div>`;
     }).join("");
   }
@@ -940,9 +1001,15 @@
     return `
       <section class="ledger-tab-panel" data-ledger-panel="stats" role="tabpanel" aria-labelledby="ledger-stats-tab" ${activeTab === "stats" ? "" : "hidden"}>
         <section class="ledger-stats-overview" aria-labelledby="ledger-stats-title">
-          <p class="ledger-section-kicker">账单结算</p>
-          <h2 id="ledger-stats-title">${escapeHtml(formatMoney(stats.totalCents, baseCurrency))}</h2>
-          <span>${ledgerData.bills.length} 笔账单 · 以 ${escapeHtml(baseCurrency)} 结算</span>
+          <p class="ledger-section-kicker">账单概览</p>
+          <h2 id="ledger-stats-title">旅行费用总览</h2>
+          <div class="ledger-stats-summary-grid">
+            <div><span>已支付</span><strong>${escapeHtml(formatMoney(stats.paidTotalCents, baseCurrency))}</strong></div>
+            <div><span>待付预算</span><strong>${escapeHtml(formatMoney(stats.plannedTotalCents, baseCurrency))}</strong></div>
+            <div class="ledger-stats-summary-primary"><span>预计总额</span><strong>${escapeHtml(formatMoney(stats.projectedTotalCents, baseCurrency))}</strong></div>
+            <div><span>预计人均</span><strong>${escapeHtml(formatMoney(stats.projectedPerPersonCents, baseCurrency))}</strong></div>
+          </div>
+          <p class="ledger-stats-caption">${ledgerData.bills.length} 笔账单 · 实际结算仅统计已支付项目 · 以 ${escapeHtml(baseCurrency)} 结算</p>
         </section>
 
         <section class="ledger-settlement-section" aria-labelledby="ledger-settlement-title">
@@ -968,7 +1035,7 @@
                   </div>`;
               }).join("")}
             </div>` : `
-            <div class="ledger-empty-state"><p>${ledgerData.bills.length ? "大家已经结清，无需转账。" : "添加账单后，这里会自动生成结算单。"}</p></div>`}
+            <div class="ledger-empty-state"><p>${stats.paidTotalCents ? "大家已经结清，无需转账。" : "添加已支付账单后，这里会自动生成结算单。"}</p></div>`}
         </section>
 
         <section class="ledger-member-stats-section" aria-labelledby="ledger-member-stats-title">
@@ -987,9 +1054,10 @@
                     <span class="ledger-member-chevron" aria-hidden="true">›</span>
                   </summary>
                   <div class="ledger-member-stat-body">
-                    <dl class="ledger-member-metrics">
+                    <dl class="ledger-member-metrics ledger-member-metrics-with-budget">
                       <div><dt>实际支付</dt><dd>${escapeHtml(formatMoney(member.paidCents, baseCurrency))}</dd></div>
                       <div><dt>个人应分摊</dt><dd>${escapeHtml(formatMoney(member.owedCents, baseCurrency))}</dd></div>
+                      <div><dt>待付预算</dt><dd>${escapeHtml(formatMoney(member.plannedShareCents, baseCurrency))}</dd></div>
                       <div><dt>结算结果</dt><dd class="${member.netCents > 0 ? "ledger-positive" : member.netCents < 0 ? "ledger-negative" : "ledger-neutral"}">${member.netCents > 0 ? "应收 " : member.netCents < 0 ? "应付 " : "已结清 "}${member.netCents === 0 ? "" : escapeHtml(formatMoney(Math.abs(member.netCents), baseCurrency))}</dd></div>
                     </dl>
                     <div class="ledger-member-bills">${renderRelatedBills(member)}</div>
@@ -1251,11 +1319,13 @@
     if (!form) return;
     const formData = new FormData(form);
     billDraft = {
+      status: String(formData.get("status") || "paid"),
       currency: String(formData.get("currency") || ledgerData.settings.lastCurrency),
       originalAmount: String(formData.get("originalAmount") || ""),
       baseAmount: String(formData.get("baseAmount") || ""),
       category: String(formData.get("category") || "餐饮"),
       note: String(formData.get("note") || "").trim().slice(0, 160),
+      paymentNote: String(formData.get("paymentNote") || "").trim().slice(0, 160),
       orderedAt: String(formData.get("orderedAt") || ""),
       payerId: String(formData.get("payerId") || ""),
       participantIds: formData.getAll("participantIds").map(String)
@@ -1392,6 +1462,7 @@
 
   async function submitBill(form) {
     const formData = new FormData(form);
+    const status = formData.get("status") === "planned" ? "planned" : "paid";
     const currency = String(formData.get("currency") || "").toUpperCase();
     const originalAmountCents = toCents(formData.get("originalAmount"));
     const isForeign = currency !== ledgerData.settings.baseCurrency;
@@ -1419,7 +1490,7 @@
       setFormError(form, "请选择账单分类。");
       return;
     }
-    if (!travelerById(payerId)) {
+    if (status === "paid" && !travelerById(payerId)) {
       setFormError(form, "请选择一位买单人。");
       return;
     }
@@ -1434,7 +1505,9 @@
       baseAmountCents,
       currency,
       category,
+      status,
       note: String(formData.get("note") || "").trim().slice(0, 160),
+      paymentNote: String(formData.get("paymentNote") || "").trim().slice(0, 160),
       orderedAt: String(formData.get("orderedAt") || ""),
       payerId,
       participantIds,
@@ -1526,7 +1599,7 @@
           : null;
         if (fullBillNote) fullBillNote.value = note;
         replaceBillNoteControl(id, false);
-        setNotice(note ? "备注已更新" : "备注已清空");
+        setNotice(note ? "项目已更新" : "项目已清空");
         ledgerRoot.dispatchEvent(new CustomEvent("travel-ledger:changed", {
           bubbles: true,
           detail: { tripId: ledgerTripId, reason: "bill-note-updated", data: deepClone(ledgerData) }
@@ -1537,8 +1610,8 @@
         form.classList.remove("ledger-is-saving");
         for (const control of form.elements) control.disabled = false;
         setNotice(ledgerPersistenceMode === "d1"
-          ? "备注保存失败，请检查网络或你的云端数据库配置后重试。"
-          : "备注本地保存失败，请检查浏览器存储空间或隐私设置后重试。");
+          ? "项目保存失败，请检查网络或你的云端数据库配置后重试。"
+          : "项目本地保存失败，请检查浏览器存储空间或隐私设置后重试。");
         return false;
       }
     });

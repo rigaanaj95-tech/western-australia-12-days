@@ -2,7 +2,14 @@
 
 The MIT License in `LICENSE` covers only original project code and original project assets. The geographic data below remains governed by its own source license.
 
-The bundled Boundary Library is retained only for advanced/legacy maintenance and reference workflows. The current ordinary map path uses the ten fixed templates in `assets/maps/templates/manifest.json`; neither that Builder nor the ordinary page reads or renders these Boundary files. Keeping the files in this repository still requires the source and license notices below.
+The bundled Boundary Library supports geographic maps when a trip region explicitly declares a boundary file. Trips without one continue to use the fixed templates in `assets/maps/templates/manifest.json`.
+
+## Western Australia state boundary
+
+- Source: [`geoBoundaries` `gbOpen` AUS ADM1 simplified release](https://github.com/wmgeolab/geoBoundaries/tree/41af8f1/releaseData/gbOpen/AUS/ADM1), boundary year 2021. The [AUS ADM1 API metadata](https://www.geoboundaries.org/api/current/gbOpen/AUS/ADM1/) identifies the Australian Bureau of Statistics as the upstream source.
+- License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+- Attribution: geoBoundaries at William & Mary and the Australian Bureau of Statistics.
+- Repository changes: The Western Australia feature was extracted from the simplified ADM1 collection, coordinates were rounded to five decimal places, and the geometry was projected into `assets/maps/generated-western-australia.svg`.
 
 ## Country boundaries
 
