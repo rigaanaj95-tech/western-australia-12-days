@@ -196,6 +196,11 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-note-field, .ledger-payment-note-field, .ledger-date-field { display: grid; grid-template-columns: 118px minmax(0, 1fr); align-items: center; gap: 10px; padding: 14px 0 0; border-top: 0; }
 .ledger-note-field .ledger-field-label, .ledger-payment-note-field .ledger-field-label, .ledger-date-field .ledger-field-label { margin: 0; }
 .ledger-note-field .ledger-input, .ledger-payment-note-field .ledger-input, .ledger-date-field .ledger-input { min-height: 40px; box-sizing: border-box; border: 1px solid rgba(19,38,47,.13); border-radius: 10px; padding: 0 12px; text-align: left; color: var(--ink); background: #fff; font-size: 13px; }
+.ledger-date-field { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
+.ledger-date-field input[type="datetime-local"] { display: block; width: 100%; min-width: 0; max-width: 100%; height: 44px; min-height: 44px; padding: 0 10px; line-height: normal; }
+.ledger-date-field input[type="datetime-local"]::-webkit-date-and-time-value { min-width: 0; text-align: left; }
+.ledger-date-field input[type="datetime-local"]::-webkit-datetime-edit { min-width: 0; padding: 0; }
+.ledger-date-field input[type="datetime-local"]::-webkit-calendar-picker-indicator { flex: 0 0 auto; margin-left: auto; }
 .ledger-fieldset-heading { display: flex; align-items: center; justify-content: space-between; }
 .ledger-fieldset-heading legend { margin-bottom: 0; }
 .ledger-person-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 8px; margin-top: 10px; }
@@ -361,6 +366,7 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
   .ledger-header-actions .ledger-text-button { min-height: 31px; }
   .ledger-entry-card { padding: 17px 15px; }
   .ledger-note-field, .ledger-payment-note-field, .ledger-date-field { grid-template-columns: 1fr; gap: 6px; }
+  .ledger-date-field input[type="datetime-local"] { font-size: 16px; }
   .ledger-stats-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ledger-member-edit-row { grid-template-columns: 36px minmax(0, 1fr) 32px auto; }
   .ledger-member-edit-row .ledger-icon-button { grid-column: 4; grid-row: 1; }

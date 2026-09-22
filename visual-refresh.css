@@ -88,14 +88,21 @@ html,body{background:#ffffff}body{font-family:'DM Sans',-apple-system,BlinkMacSy
   }
 
   .hero {
+    align-items: center;
     padding-top: 40px;
     padding-bottom: 40px;
+    text-align: center;
   }
 
   .hero-display {
     max-width: 100%;
+    margin-inline: auto;
     font-size: clamp(42px, 13.5vw, 58px);
     letter-spacing: 0;
+  }
+
+  .hero__eyebrow {
+    align-self: center;
   }
 
   .hero h1,
@@ -105,9 +112,18 @@ html,body{background:#ffffff}body{font-family:'DM Sans',-apple-system,BlinkMacSy
   }
 
   .hero-character {
-    right: 12px;
-    width: 88px;
-    height: 88px;
+    position: relative;
+    inset: auto;
+    align-self: center;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 16px;
+  }
+
+  .hero-caption {
+    max-width: 280px;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .section-heading > div {
@@ -214,9 +230,8 @@ html,body{background:#ffffff}body{font-family:'DM Sans',-apple-system,BlinkMacSy
   }
 
   .hero-character {
-    right: 8px;
-    width: 76px;
-    height: 76px;
+    width: 84px;
+    height: 84px;
   }
 
   .flight-card {
