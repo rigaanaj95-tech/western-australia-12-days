@@ -286,7 +286,7 @@
         .filter((id) => travelerIds.has(id));
       if (!Number.isSafeInteger(originalAmountCents) || originalAmountCents <= 0) return [];
       if (!Number.isSafeInteger(baseAmountCents) || baseAmountCents <= 0) return [];
-      if (!CURRENCY_BY_CODE.has(currency) || (status === "paid" && !travelerIds.has(payerId)) || !participantIds.length) return [];
+      if (!CURRENCY_BY_CODE.has(currency) || (payerId && !travelerIds.has(payerId)) || !participantIds.length) return [];
       const category = CATEGORIES.includes(bill?.category) ? bill.category : "其他";
       return [{
         id: String(bill.id || makeId("bill")),
@@ -544,12 +544,22 @@
     const byId = new Map(members.map((entry) => [entry.traveler.id, entry]));
     ledgerData.bills.forEach((bill) => {
       if (bill.status === "planned") return;
+      const shares = billShares(bill);
       const payer = byId.get(bill.payerId);
       if (payer) {
         payer.paidCents += bill.baseAmountCents;
         payer.billIds.push(bill.id);
+      } else {
+        shares.forEach((amount, participantId) => {
+          const member = byId.get(participantId);
+          if (!member) return;
+          member.paidCents += amount;
+          member.owedCents += amount;
+          member.billIds.push(bill.id);
+        });
+        return;
       }
-      billShares(bill).forEach((amount, participantId) => {
+      shares.forEach((amount, participantId) => {
         const member = byId.get(participantId);
         if (!member) return;
         member.owedCents += amount;
@@ -730,8 +740,9 @@
             </label>
 
             <fieldset class="ledger-fieldset">
-              <legend class="ledger-field-label">买单人 <small>待付预算可暂不选</small></legend>
+              <legend class="ledger-field-label">买单方式</legend>
               <div class="ledger-person-grid">
+                ${renderPersonChoice({ id: "", name: "共同分摊", initial: "共", color: "#68798E" }, "radio", "payerId", !selectedPayerId)}
                 ${ledgerData.travelers.map((traveler) => renderPersonChoice(traveler, "radio", "payerId", selectedPayerId === traveler.id)).join("")}
               </div>
             </fieldset>
@@ -892,8 +903,8 @@
         </div>
         <div class="ledger-bill-people">
           <div class="ledger-bill-payer">
-            <span>${isPlanned ? "预计付款" : "买单"}</span>
-            ${payer ? `${renderAvatar(payer, "small")}<b>${escapeHtml(payer.name)}</b>` : `<b>待确认</b>`}
+            <span>${isPlanned ? "预计付款" : payer ? "买单" : "支付方式"}</span>
+            ${payer ? `${renderAvatar(payer, "small")}<b>${escapeHtml(payer.name)}</b>` : `<b>${isPlanned ? "待确认" : "共同分摊"}</b>`}
           </div>
           <div class="ledger-bill-participants" aria-label="参与分账：${escapeAttribute(participants.map((person) => person.name).join("、"))}">
             <span>分账</span>
@@ -1472,8 +1483,8 @@
       setFormError(form, "请选择账单分类。");
       return;
     }
-    if (status === "paid" && !travelerById(payerId)) {
-      setFormError(form, "请选择一位买单人。");
+    if (payerId && !travelerById(payerId)) {
+      setFormError(form, "请选择有效的买单方式。");
       return;
     }
     if (!participantIds.length) {
