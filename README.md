@@ -103,6 +103,12 @@ npm run db:setup
 
 该命令会创建 `trip_records` 表，并以稳定 ID 迁移当前两位成员和 21 笔账单；重复执行只会更新同 ID 数据，不会产生重复记录。账本设置仍保存在每台设备本地。
 
+旅行文件使用 AES-256-GCM 加密后再部署，访问密码不会写入仓库。需要更新原件时执行：
+
+```bash
+ATTACHMENT_PASSWORD="<password>" node scripts/encrypt-travel-documents.mjs "<source-directory>"
+```
+
 ---
 
 ## 数据与隐私

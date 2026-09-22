@@ -378,3 +378,64 @@ html,body{background:#ffffff}body{font-family:'DM Sans',-apple-system,BlinkMacSy
     align-items: flex-start;
   }
 }
+
+/* Password-protected travel documents. */
+.document-unlock {
+  width: min(100%, 560px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.document-unlock label { min-width: 0; }
+.document-unlock label span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 11px; }
+.document-unlock input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: 0;
+  background: var(--paper);
+  font-size: 16px;
+}
+
+.document-unlock button,
+.document-item button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--ink);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.document-unlock button:disabled,
+.document-item button:disabled { opacity: .55; cursor: wait; }
+.document-unlock[hidden],
+.document-groups[hidden] { display: none !important; }
+.document-unlock > p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 11px; }
+.document-groups { display: grid; gap: 34px; }
+.document-group > h3 { margin: 0 0 12px; font-size: 16px; }
+.document-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.document-item { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.document-item__meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 10px; }
+.document-type { color: var(--lake); font-weight: 800; }
+.document-item h3 { margin: 14px 0 0; overflow-wrap: anywhere; font-size: 15px; line-height: 1.4; }
+.document-item p { min-height: 34px; margin: 6px 0 14px; color: var(--muted); font-size: 11px; line-height: 1.55; }
+.document-item button { width: 100%; }
+
+@media (max-width: 700px) {
+  .document-unlock { grid-template-columns: 1fr; padding: 14px; }
+  .document-unlock > p { grid-column: 1; }
+  .document-list { grid-template-columns: 1fr; }
+  .document-item p { min-height: 0; }
+}

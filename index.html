@@ -19,6 +19,7 @@
   <script src="site-navigation.js?v=20260918-1" defer></script>
   <link rel="stylesheet" href="packing.css?v=20260918-1">
   <script src="packing.js?v=20260918-1" defer></script>
+  <script src="documents.js?v=20260922-1" defer></script>
   <link rel="stylesheet" href="visual-refresh.css?v=20260922-1">
   <script src="hero-character.js?v=20260918-1" defer></script>
 </head>
@@ -36,6 +37,7 @@
           <a href="#drive" role="menuitem" data-module="driving" hidden>自驾</a>
           <a href="#prep" role="menuitem" data-module="todo" hidden>Todo</a>
           <a href="#packing" role="menuitem">物品清单</a>
+          <a href="#documents" role="menuitem">旅行文件</a>
         </div>
       </details>
       <a class="primary-navigation__ledger" id="ledger-navigation-link" href="#ledger" data-module="ledger" hidden>记账</a>
@@ -122,6 +124,17 @@
       <p id="packing-empty" hidden>全部整理好了，旅途愉快！</p>
       <div class="packing-reminder"><p><strong>去程：</strong>9 月 23 日 01:35 从上海起飞，按 9 月 22 日晚前往机场准备。</p><p><strong>返程：</strong>10 月 4 日 05:35 从珀斯起飞，10 月 3 日出海回来后收好返程行李。</p></div>
       <p id="packing-storage" class="packing-storage">勾选自动保存在当前浏览器，各设备分别记录。</p>
+    </section>
+
+    <section class="section documents-section" id="documents" aria-labelledby="documents-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">TRAVEL FILES</p>
+          <h2 id="documents-title">旅行文件</h2>
+        </div>
+        <span class="soft-label">16 FILES</span>
+      </div>
+      <div id="document-vault"></div>
     </section>
 
     <footer class="footer">
