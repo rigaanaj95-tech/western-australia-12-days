@@ -197,10 +197,11 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-note-field .ledger-field-label, .ledger-payment-note-field .ledger-field-label, .ledger-date-field .ledger-field-label { margin: 0; }
 .ledger-note-field .ledger-input, .ledger-payment-note-field .ledger-input, .ledger-date-field .ledger-input { min-height: 40px; box-sizing: border-box; border: 1px solid rgba(19,38,47,.13); border-radius: 10px; padding: 0 12px; text-align: left; color: var(--ink); background: #fff; font-size: 13px; }
 .ledger-date-field { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
-.ledger-date-field input[type="datetime-local"] { display: block; width: 100%; min-width: 0; max-width: 100%; height: 44px; min-height: 44px; padding: 0 10px; line-height: normal; }
-.ledger-date-field input[type="datetime-local"]::-webkit-date-and-time-value { min-width: 0; text-align: left; }
-.ledger-date-field input[type="datetime-local"]::-webkit-datetime-edit { min-width: 0; padding: 0; }
-.ledger-date-field input[type="datetime-local"]::-webkit-calendar-picker-indicator { flex: 0 0 auto; margin-left: auto; }
+.ledger-date-control { position: relative; width: 100%; min-width: 0; height: 44px; display: block; }
+.ledger-date-control input[type="datetime-local"] { position: absolute; z-index: 2; inset: 0; width: 100%; min-width: 0; max-width: 100%; height: 44px; min-height: 44px; margin: 0; padding: 0; border: 0; opacity: 0; cursor: pointer; }
+.ledger-date-display { width: 100%; height: 44px; display: flex; align-items: center; box-sizing: border-box; padding: 0 54px 0 10px; overflow: hidden; border: 1px solid rgba(19,38,47,.13); border-radius: 10px; color: var(--ink); background: #fff; font-size: 16px; line-height: 1; text-overflow: ellipsis; white-space: nowrap; }
+.ledger-date-control::after { content: "选择"; position: absolute; z-index: 1; top: 50%; right: 11px; color: #879496; font-size: 11px; transform: translateY(-50%); }
+.ledger-date-control:focus-within .ledger-date-display { border-color: #9fc4c9; box-shadow: 0 0 0 3px rgba(40,123,144,.1); }
 .ledger-fieldset-heading { display: flex; align-items: center; justify-content: space-between; }
 .ledger-fieldset-heading legend { margin-bottom: 0; }
 .ledger-person-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 8px; margin-top: 10px; }

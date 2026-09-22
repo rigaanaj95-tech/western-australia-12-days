@@ -725,7 +725,10 @@
 
             <label class="ledger-field ledger-date-field">
               <span class="ledger-field-label">下单时间 <small>选填</small></span>
-              <input class="ledger-input" type="datetime-local" name="orderedAt" value="${escapeAttribute(editingBill?.orderedAt || draft?.orderedAt || "")}">
+              <span class="ledger-date-control">
+                <input class="ledger-input" type="datetime-local" name="orderedAt" value="${escapeAttribute(editingBill?.orderedAt || draft?.orderedAt || "")}">
+                <span class="ledger-date-display" data-ledger-date-display aria-hidden="true">${escapeHtml(formatOrderedDateTime(editingBill?.orderedAt || draft?.orderedAt || ""))}</span>
+              </span>
             </label>
 
             <fieldset class="ledger-fieldset">
@@ -768,6 +771,12 @@
       minute: "2-digit",
       hour12: false
     }).format(parsed);
+  }
+
+  function formatOrderedDateTime(value) {
+    const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+    if (!match) return "年 / 月 / 日 --:--";
+    return `${match[1]}年${Number(match[2])}月${Number(match[3])}日 ${match[4]}:${match[5]}`;
   }
 
   function renderBillNoteControl(bill, options = {}) {
@@ -1829,14 +1838,22 @@
     const memberForm = event.target.closest('[data-ledger-form="member-add"]');
     if (memberForm) syncMemberPreview(memberForm);
     if (event.target.closest('[data-ledger-form="bill"]')) {
+      syncOrderedAtDisplay(event.target);
       captureBillDraft();
       syncSplitSummary();
     }
   }
 
+  function syncOrderedAtDisplay(input) {
+    if (!input.matches?.('input[name="orderedAt"]')) return;
+    const display = input.parentElement.querySelector("[data-ledger-date-display]");
+    if (display) display.textContent = formatOrderedDateTime(input.value);
+  }
+
   function handleRootChange(event) {
     if (event.target.matches('[data-ledger-field="currency"]')) syncCurrencyField(event.target);
     if (event.target.closest('[data-ledger-form="bill"]')) {
+      syncOrderedAtDisplay(event.target);
       captureBillDraft();
       syncSplitSummary();
     }
