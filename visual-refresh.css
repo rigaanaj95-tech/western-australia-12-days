@@ -434,6 +434,12 @@ html,body{background:#ffffff}body{font-family:'DM Sans',-apple-system,BlinkMacSy
 .document-item button { width: 100%; }
 
 @media (max-width: 700px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
   .document-unlock { grid-template-columns: 1fr; padding: 14px; }
   .document-unlock > p { grid-column: 1; }
   .document-list { grid-template-columns: 1fr; }
