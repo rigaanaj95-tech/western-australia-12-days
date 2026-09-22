@@ -544,22 +544,11 @@
     const byId = new Map(members.map((entry) => [entry.traveler.id, entry]));
     ledgerData.bills.forEach((bill) => {
       if (bill.status === "planned") return;
-      const shares = billShares(bill);
       const payer = byId.get(bill.payerId);
-      if (payer) {
-        payer.paidCents += bill.baseAmountCents;
-        payer.billIds.push(bill.id);
-      } else {
-        shares.forEach((amount, participantId) => {
-          const member = byId.get(participantId);
-          if (!member) return;
-          member.paidCents += amount;
-          member.owedCents += amount;
-          member.billIds.push(bill.id);
-        });
-        return;
-      }
-      shares.forEach((amount, participantId) => {
+      if (!payer) return;
+      payer.paidCents += bill.baseAmountCents;
+      payer.billIds.push(bill.id);
+      billShares(bill).forEach((amount, participantId) => {
         const member = byId.get(participantId);
         if (!member) return;
         member.owedCents += amount;
