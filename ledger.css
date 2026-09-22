@@ -360,7 +360,7 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
   .ledger-entry-card { padding: 22px; }
   .ledger-dialog { margin: auto; }
 }
-@media (max-width: 420px) {
+@media (max-width: 520px) {
   .ledger-page-header { align-items: flex-start; }
   .ledger-header-actions { flex-direction: column-reverse; align-items: flex-end; gap: 0; }
   .ledger-header-actions .ledger-text-button { min-height: 31px; }
