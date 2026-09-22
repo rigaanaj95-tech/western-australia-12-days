@@ -538,21 +538,12 @@
       traveler,
       paidCents: 0,
       owedCents: 0,
-      plannedShareCents: 0,
       netCents: 0,
       billIds: []
     }));
     const byId = new Map(members.map((entry) => [entry.traveler.id, entry]));
     ledgerData.bills.forEach((bill) => {
-      if (bill.status === "planned") {
-        billShares(bill).forEach((amount, participantId) => {
-          const member = byId.get(participantId);
-          if (!member) return;
-          member.plannedShareCents += amount;
-          member.billIds.push(bill.id);
-        });
-        return;
-      }
+      if (bill.status === "planned") return;
       const payer = byId.get(bill.payerId);
       if (payer) {
         payer.paidCents += bill.baseAmountCents;
@@ -618,16 +609,10 @@
     const paidTotalCents = ledgerData.bills
       .filter((bill) => bill.status === "paid")
       .reduce((sum, bill) => sum + bill.baseAmountCents, 0);
-    const plannedTotalCents = ledgerData.bills
-      .filter((bill) => bill.status === "planned")
-      .reduce((sum, bill) => sum + bill.baseAmountCents, 0);
-    const projectedTotalCents = paidTotalCents + plannedTotalCents;
     return {
       totalCents: paidTotalCents,
       paidTotalCents,
-      plannedTotalCents,
-      projectedTotalCents,
-      projectedPerPersonCents: members.length ? Math.round(projectedTotalCents / members.length) : 0,
+      paidPerPersonCents: members.length ? Math.round(paidTotalCents / members.length) : 0,
       members,
       transfers
     };
@@ -950,8 +935,8 @@
             <h2 id="ledger-list-title">${bills.length ? `${bills.length} 笔账单` : "还没有账单"}</h2>
           </div>
           <div class="ledger-list-total">
-            <span>预计总额</span>
-            <strong>${escapeHtml(formatMoney(paidTotalCents + plannedTotalCents, baseCurrency))}</strong>
+            <span>已付总额</span>
+            <strong>${escapeHtml(formatMoney(paidTotalCents, baseCurrency))}</strong>
           </div>
         </div>
         ${bills.length
@@ -1004,12 +989,10 @@
           <p class="ledger-section-kicker">账单概览</p>
           <h2 id="ledger-stats-title">旅行费用总览</h2>
           <div class="ledger-stats-summary-grid">
-            <div><span>已支付</span><strong>${escapeHtml(formatMoney(stats.paidTotalCents, baseCurrency))}</strong></div>
-            <div><span>待付预算</span><strong>${escapeHtml(formatMoney(stats.plannedTotalCents, baseCurrency))}</strong></div>
-            <div class="ledger-stats-summary-primary"><span>预计总额</span><strong>${escapeHtml(formatMoney(stats.projectedTotalCents, baseCurrency))}</strong></div>
-            <div><span>预计人均</span><strong>${escapeHtml(formatMoney(stats.projectedPerPersonCents, baseCurrency))}</strong></div>
+            <div class="ledger-stats-summary-primary"><span>已付总额</span><strong>${escapeHtml(formatMoney(stats.paidTotalCents, baseCurrency))}</strong></div>
+            <div><span>已付人均</span><strong>${escapeHtml(formatMoney(stats.paidPerPersonCents, baseCurrency))}</strong></div>
           </div>
-          <p class="ledger-stats-caption">${ledgerData.bills.length} 笔账单 · 实际结算仅统计已支付项目 · 以 ${escapeHtml(baseCurrency)} 结算</p>
+          <p class="ledger-stats-caption">${ledgerData.bills.filter((bill) => bill.status === "paid").length} 笔已支付账单 · 待付预算不计入统计 · 以 ${escapeHtml(baseCurrency)} 结算</p>
         </section>
 
         <section class="ledger-settlement-section" aria-labelledby="ledger-settlement-title">
@@ -1054,10 +1037,9 @@
                     <span class="ledger-member-chevron" aria-hidden="true">›</span>
                   </summary>
                   <div class="ledger-member-stat-body">
-                    <dl class="ledger-member-metrics ledger-member-metrics-with-budget">
+                    <dl class="ledger-member-metrics">
                       <div><dt>实际支付</dt><dd>${escapeHtml(formatMoney(member.paidCents, baseCurrency))}</dd></div>
                       <div><dt>个人应分摊</dt><dd>${escapeHtml(formatMoney(member.owedCents, baseCurrency))}</dd></div>
-                      <div><dt>待付预算</dt><dd>${escapeHtml(formatMoney(member.plannedShareCents, baseCurrency))}</dd></div>
                       <div><dt>结算结果</dt><dd class="${member.netCents > 0 ? "ledger-positive" : member.netCents < 0 ? "ledger-negative" : "ledger-neutral"}">${member.netCents > 0 ? "应收 " : member.netCents < 0 ? "应付 " : "已结清 "}${member.netCents === 0 ? "" : escapeHtml(formatMoney(Math.abs(member.netCents), baseCurrency))}</dd></div>
                     </dl>
                     <div class="ledger-member-bills">${renderRelatedBills(member)}</div>

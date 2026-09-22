@@ -256,7 +256,7 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 
 .ledger-stats-overview { margin-top: 28px; padding: 18px 20px; }
 .ledger-stats-overview h2 { margin-top: 7px; font-size: clamp(22px, 7vw, 30px); line-height: 1.15; letter-spacing: 0; }
-.ledger-stats-summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }
+.ledger-stats-summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }
 .ledger-stats-summary-grid > div { min-width: 0; display: grid; align-content: space-between; gap: 8px; min-height: 82px; padding: 12px; border-radius: 10px; background: var(--surface, #f7f6fc); }
 .ledger-stats-summary-grid span { color: var(--muted, #666372); font-size: 10px; }
 .ledger-stats-summary-grid strong { min-width: 0; font-size: clamp(14px, 2.4vw, 18px); line-height: 1.15; overflow-wrap: anywhere; }
@@ -289,7 +289,6 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
 .ledger-neutral strong { color: #869394; }
 .ledger-member-stat-body { padding: 0 16px 15px; }
 .ledger-member-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 12px 0; border-top: 1px solid rgba(19,38,47,.08); }
-.ledger-member-metrics-with-budget { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .ledger-member-metrics div { display: grid; gap: 5px; }
 .ledger-member-metrics dt { color: #9aa7a8; font-size: 9px; }
 .ledger-member-metrics dd { margin: 0; font-size: 14px; font-weight: 730; }
@@ -363,7 +362,6 @@ body[data-active-view="ledger"] .topbar { background: rgba(250, 251, 249, .93); 
   .ledger-entry-card { padding: 17px 15px; }
   .ledger-note-field, .ledger-payment-note-field, .ledger-date-field { grid-template-columns: 1fr; gap: 6px; }
   .ledger-stats-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ledger-member-metrics-with-budget { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 8px; }
   .ledger-member-edit-row { grid-template-columns: 36px minmax(0, 1fr) 32px auto; }
   .ledger-member-edit-row .ledger-icon-button { grid-column: 4; grid-row: 1; }
   .ledger-member-edit-row .ledger-text-button { grid-column: 4; grid-row: 2; }
