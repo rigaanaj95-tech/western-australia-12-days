@@ -629,21 +629,11 @@ function saveTicketState(ticketId, completed) {
   return saveSharedChange("tickets", { id: ticketId, completed }, completed ? "upsert" : "delete").catch(console.error);
 }
 
-function rentalStatus(rental) {
-  const pickup = new Date(`${rental.pickup.date}T${rental.pickup.time}:00${rental.pickup.utcOffset || "+00:00"}`);
-  const dropoff = new Date(`${rental.dropoff.date}T${rental.dropoff.time}:00${rental.dropoff.utcOffset || "+00:00"}`);
-  const now = new Date();
-  if (now < pickup) return { label: "距取车", target: pickup, complete: false };
-  if (now < dropoff) return { label: "距还车", target: dropoff, complete: false };
-  return { label: "已超过预约还车时间", target: dropoff, complete: true };
-}
-
 function renderRental() {
   const transport = state.data.groundTransport;
   const rental = transport.rentalCar;
   const vehicle = rental.vehicle || {};
   $("#rental-provider-label").textContent = vehicle.example;
-  const status = rentalStatus(rental);
   $("#rental-card").innerHTML = `
     <article class="rental-panel">
       <div class="return-deadline">
@@ -652,13 +642,7 @@ function renderRental() {
         <span>${escapeHtml(rental.dropoff.timeZoneLabel)}</span>
         <p>${escapeHtml(rental.dropoff.vehicleReturnPoint)}</p>
         <div class="return-deadline__timer" id="return-deadline-timer"></div>
-        <p class="return-deadline__warning">${escapeHtml(rental.dropoff.deadlineWarning)}</p>
         ${rental.dropoff.recommendedArrivalTime ? `<small>建议 ${escapeHtml(rental.dropoff.recommendedArrivalTime)} 抵达还车地点。</small>` : ""}
-      </div>
-      <div class="rental-countdown" id="rental-countdown">
-        <span>${escapeHtml(status.label)}</span>
-        <strong>${status.complete ? "租车行程已结束" : escapeHtml(countdownText(status.target))}</strong>
-        <small>${formatCompactDate(rental.dropoff.date)} ${escapeHtml(rental.dropoff.time)} 前 · ${escapeHtml(rental.dropoff.vehicleReturnPoint)}</small>
       </div>
       <div class="rental-details">
         <div class="rental-car">${escapeHtml(vehicle.example)}</div>
@@ -688,11 +672,6 @@ function updateRentalCountdown() {
     ? `距还车截止 ${preciseCountdownText(deadline)}`
     : "预约还车时间已过";
   $(".return-deadline").classList.toggle("is-urgent", remaining <= 86400000);
-  const panel = $("#rental-countdown");
-  if (!panel) return;
-  const status = rentalStatus(state.data.groundTransport.rentalCar);
-  $("span", panel).textContent = status.label;
-  $("strong", panel).textContent = status.complete ? "租车行程已结束" : countdownText(status.target);
 }
 
 function loadTodoState() { state.todos = []; }

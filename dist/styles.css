@@ -237,12 +237,7 @@ main { overflow: hidden; }
 .return-deadline > span:not(:first-child), .return-deadline small { font-size: 11px; line-height: 1.6; }
 .return-deadline p { margin: 10px 0; font-size: 12px; overflow-wrap: anywhere; }
 .return-deadline__timer { padding: 12px 0; border-block: 1px solid #e7c6ad; font-size: 16px; font-weight: 750; font-variant-numeric: tabular-nums; }
-.return-deadline__warning { font-weight: 750; }
 .return-deadline.is-urgent { background: #ffe1da; color: #8c291f; border-color: #b84635; }
-.rental-countdown { padding: 24px; background: var(--lake); }
-.rental-countdown span { display: block; color: #d6ebee; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
-.rental-countdown strong { display: block; margin-top: 8px; font: 760 clamp(28px, 9vw, 44px)/1.05 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: -.05em; }
-.rental-countdown small { display: block; margin-top: 10px; color: #d6ebee; line-height: 1.5; }
 .rental-details { padding: 22px; }
 .rental-car { font-size: 19px; font-weight: 750; }
 .rental-sub { margin-top: 5px; color: #abc0c4; font-size: 12px; }
