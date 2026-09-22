@@ -19,6 +19,7 @@ const FILES = [
   ["Confirmation_for_Booking_ID_#_(1).pdf", "hotel-african-reef.enc"],
   ["Confirmation_for_Booking_ID_#_(13).pdf", "hotel-vibe-subiaco.enc"],
   ["IMMI Grant Notification.pdf", "australia-visa-grant.enc"],
+  ["IMMI Grant Notification(2).pdf", "australia-visa-grant-ztn.enc"],
   ["Nationwest Aviation - Kalbarri Scenic Flights - Order RU9ZH2C - Payment receipt(1).pdf", "shark-bay-flight-payment.enc"],
   ["Order RU9ZH2C is Confirmed(3).pdf", "shark-bay-flight-confirmation.enc"],
   ["英文版机票行程单(1).pdf", "outbound-flight-ztn.enc"],

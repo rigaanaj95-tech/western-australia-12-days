@@ -15,10 +15,17 @@
       documents: [
         {
           file: "australia-visa-grant.enc",
-          name: "australia-visitor-visa.pdf",
+          name: "australia-visitor-visa-lkk.pdf",
           date: "2026-06-11",
-          title: "澳大利亚访客签证获批通知",
-          description: "Visitor 600 签证批准文件"
+          title: "澳大利亚访客签证获批通知 · LKK",
+          description: "LKK · Visitor 600 签证批准文件"
+        },
+        {
+          file: "australia-visa-grant-ztn.enc",
+          name: "australia-visitor-visa-ztn.pdf",
+          date: "2026-06-11",
+          title: "澳大利亚访客签证获批通知 · ZTN",
+          description: "ZTN · Visitor 600 签证批准文件"
         },
         {
           file: "wa-parks-pass.enc",
