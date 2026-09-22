@@ -2,9 +2,10 @@
   "use strict";
 
   const STORAGE_VERSION = 2;
+  const SUPPORTED_CURRENCY_CODES = Object.freeze(["CNY", "AUD", "USD"]);
   const DEFAULT_SETTINGS = Object.freeze({
     baseCurrency: "CNY",
-    commonCurrencies: ["EUR", "CHF", "HKD"],
+    commonCurrencies: ["AUD", "USD"],
     lastCurrency: "CNY"
   });
   const CATEGORIES = Object.freeze(["餐饮", "交通", "住宿", "门票", "购物", "其他"]);
@@ -127,7 +128,10 @@
     return Object.freeze([...byCode.values()].sort((first, second) => first.code.localeCompare(second.code)));
   }
 
-  const CURRENCY_CATALOG = buildCurrencyCatalog(SEEDED_CURRENCY_CATALOG);
+  const CURRENCY_CATALOG = Object.freeze(
+    buildCurrencyCatalog(SEEDED_CURRENCY_CATALOG)
+      .filter((currency) => SUPPORTED_CURRENCY_CODES.includes(currency.code))
+  );
 
   const CURRENCY_BY_CODE = new Map(CURRENCY_CATALOG.map((currency) => [currency.code, currency]));
   const currencySearchText = new Map(CURRENCY_CATALOG.map((currency) => [
@@ -268,11 +272,7 @@
     const travelerIds = new Set(travelers.map((traveler) => traveler.id));
     const requestedBase = String(raw.settings?.baseCurrency || DEFAULT_SETTINGS.baseCurrency).toUpperCase();
     const baseCurrency = CURRENCY_BY_CODE.has(requestedBase) ? requestedBase : DEFAULT_SETTINGS.baseCurrency;
-    const commonCurrencies = [...new Set(
-      (Array.isArray(raw.settings?.commonCurrencies) ? raw.settings.commonCurrencies : DEFAULT_SETTINGS.commonCurrencies)
-        .map((code) => String(code).toUpperCase())
-        .filter((code) => CURRENCY_BY_CODE.has(code) && code !== baseCurrency)
-    )];
+    const commonCurrencies = SUPPORTED_CURRENCY_CODES.filter((code) => code !== baseCurrency);
     const availableCurrencies = new Set([baseCurrency, ...commonCurrencies]);
     const requestedLast = String(raw.settings?.lastCurrency || baseCurrency).toUpperCase();
     const lastCurrency = availableCurrencies.has(requestedLast) ? requestedLast : baseCurrency;
@@ -1143,15 +1143,6 @@
             </button>
             ${baseLocked ? `<p class="ledger-setting-note">已有账单后，本位币会锁定，避免历史换算金额失真。</p>` : ""}
           </section>
-          <section class="ledger-setting-group">
-            <div class="ledger-setting-heading">
-              <div><h3>常用外币</h3><p>只在记账时显示你选中的币种</p></div>
-              <button class="ledger-text-button" type="button" data-ledger-action="pick-common-currency">添加货币</button>
-            </div>
-            ${ledgerData.settings.commonCurrencies.length
-              ? `<div class="ledger-currency-chips">${ledgerData.settings.commonCurrencies.map(renderCurrencyChip).join("")}</div>`
-              : `<p class="ledger-dialog-empty">尚未添加常用外币。</p>`}
-          </section>
         </div>
       </dialog>`;
   }
@@ -1181,7 +1172,7 @@
   function renderCurrencyResultsMarkup() {
     const currencies = searchedCurrencies();
     if (!normalizeSearch(currencyQuery)) {
-      return `<div class="ledger-currency-empty"><p>输入货币名称开始查找</p><small>例如：港币、Hong Kong 或 HKD</small></div>`;
+      return `<div class="ledger-currency-empty"><p>输入货币名称开始查找</p><small>支持人民币、澳大利亚元和美元</small></div>`;
     }
     return currencies.length
       ? currencies.map(currencyResultMarkup).join("")
