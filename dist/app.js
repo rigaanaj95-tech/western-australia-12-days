@@ -641,10 +641,9 @@ function rentalStatus(rental) {
 function renderRental() {
   const transport = state.data.groundTransport;
   const rental = transport.rentalCar;
-  $("#rental-provider-label").textContent = rental.company;
-  const status = rentalStatus(rental);
   const vehicle = rental.vehicle || {};
-  const price = rental.price || {};
+  $("#rental-provider-label").textContent = vehicle.example;
+  const status = rentalStatus(rental);
   $("#rental-card").innerHTML = `
     <article class="rental-panel">
       <div class="return-deadline">
@@ -658,12 +657,12 @@ function renderRental() {
       </div>
       <div class="rental-countdown" id="rental-countdown">
         <span>${escapeHtml(status.label)}</span>
-        <strong>${status.complete ? `请立即联系 ${escapeHtml(rental.company)}` : escapeHtml(countdownText(status.target))}</strong>
+        <strong>${status.complete ? "租车行程已结束" : escapeHtml(countdownText(status.target))}</strong>
         <small>${formatCompactDate(rental.dropoff.date)} ${escapeHtml(rental.dropoff.time)} 前 · ${escapeHtml(rental.dropoff.vehicleReturnPoint)}</small>
       </div>
       <div class="rental-details">
-        <div class="rental-car">${escapeHtml(rental.company)} · ${escapeHtml(vehicle.example)}</div>
-        <div class="rental-sub">${escapeHtml(vehicle.class)} · ${rental.unlimitedKilometers ? "无限里程" : "里程条款见订单"}</div>
+        <div class="rental-car">${escapeHtml(vehicle.example)}</div>
+        <div class="rental-sub">${escapeHtml(vehicle.class)}</div>
         <div class="rental-stops">
           <div class="rental-stop">
             <span class="rental-stop__label">PICK UP</span>
@@ -674,33 +673,11 @@ function renderRental() {
             <div><b>${formatCompactDate(rental.dropoff.date)} ${escapeHtml(rental.dropoff.time)}</b><span>${escapeHtml(rental.dropoff.vehicleReturnPoint)}</span></div>
           </div>
         </div>
-        <div class="rental-price"><span>柜台支付 · ${rental.rentalPeriodDays} 天</span><strong>${price.payAtCounter == null || price.payAtCounter === "" ? "费用待补充" : `${escapeHtml(price.currency)} ${Number(price.payAtCounter).toFixed(2)}`}</strong></div>
       </div>
     </article>
   `;
-  const insurance = (rental.insurance || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
-  const panels = {
-    checklist: transport.rentalChecklist.map((rule) => `<li>${escapeHtml(rule)}</li>`).join(""),
-    insurance,
-    driving: `${(transport.drivingNotes || []).map((rule) => `<li>${escapeHtml(rule)}</li>`).join("")}${(transport.drivingReferenceLinks || []).map((link) => `<li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)} ↗</a></li>`).join("")}`
-  };
   const notes = $("#drive-notes");
-  notes.innerHTML = `
-    <div class="drive-note-tabs" role="group" aria-label="自驾注意事项">
-      <button type="button" aria-expanded="true" aria-controls="drive-note-content" data-drive-note="checklist">取还车检查</button>
-      <button type="button" aria-expanded="false" aria-controls="drive-note-content" data-drive-note="insurance">订单保障</button>
-      <button type="button" aria-expanded="false" aria-controls="drive-note-content" data-drive-note="driving">驾驶提醒</button>
-    </div>
-    <div class="drive-note-panel" id="drive-note-content"><ul>${panels.checklist}</ul></div>`;
-  notes.onclick = (event) => {
-    const button = event.target.closest("button[data-drive-note]");
-    if (!button) return;
-    const collapse = button.getAttribute("aria-expanded") === "true";
-    $$("button[data-drive-note]", notes).forEach((item) => item.setAttribute("aria-expanded", String(item === button && !collapse)));
-    const panel = $(".drive-note-panel", notes);
-    panel.hidden = collapse;
-    if (!collapse) panel.innerHTML = `<ul>${panels[button.dataset.driveNote]}</ul>`;
-  };
+  notes.innerHTML = `<div class="drive-note-panel"><ul>${transport.rentalChecklist.map((rule) => `<li>${escapeHtml(rule)}</li>`).join("")}</ul></div>`;
 }
 
 function updateRentalCountdown() {
@@ -709,13 +686,13 @@ function updateRentalCountdown() {
   const remaining = deadline.getTime() - Date.now();
   $("#return-deadline-timer").textContent = remaining > 0
     ? `距还车截止 ${preciseCountdownText(deadline)}`
-    : "预约还车时间已过 · 如尚未还车，请立即联系租车公司";
+    : "预约还车时间已过";
   $(".return-deadline").classList.toggle("is-urgent", remaining <= 86400000);
   const panel = $("#rental-countdown");
   if (!panel) return;
   const status = rentalStatus(state.data.groundTransport.rentalCar);
   $("span", panel).textContent = status.label;
-  $("strong", panel).textContent = status.complete ? `请立即联系 ${state.data.groundTransport.rentalCar.company}` : countdownText(status.target);
+  $("strong", panel).textContent = status.complete ? "租车行程已结束" : countdownText(status.target);
 }
 
 function loadTodoState() { state.todos = []; }

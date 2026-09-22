@@ -42,9 +42,8 @@ function validUtcOffset(value) {
 function rentalRenderable(rental) {
   return Boolean(
     rental && typeof rental === "object" &&
-    typeof rental.company === "string" && rental.company.trim() &&
     rental.vehicle && typeof rental.vehicle === "object" &&
-    rental.price && typeof rental.price === "object" &&
+    typeof rental.vehicle.example === "string" && rental.vehicle.example.trim() &&
     rental.pickup && typeof rental.pickup.date === "string" && typeof rental.pickup.time === "string" &&
     rental.dropoff && typeof rental.dropoff.date === "string" && typeof rental.dropoff.time === "string"
   );

@@ -251,8 +251,6 @@ main { overflow: hidden; }
 .rental-stop__label { color: #7fa8b0; font: 700 10px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .rental-stop b { display: block; font-size: 14px; }
 .rental-stop span { display: block; margin-top: 4px; color: #abc0c4; font-size: 12px; line-height: 1.5; }
-.rental-price { margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.14); display: flex; justify-content: space-between; color: #abc0c4; font-size: 12px; }
-.rental-price strong { color: white; font: 720 15px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
 
 .accordion-stack { margin-top: 14px; display: grid; gap: 10px; }
 .accordion { border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.72); overflow: hidden; }

@@ -233,20 +233,10 @@
   "accommodations": [],
   "groundTransport": {
     "rentalCar": {
-      "company": "待补充",
-      "rentalPeriodDays": 9,
       "vehicle": {
-        "example": "Mitsubishi ASX 或相似车型",
-        "class": "Intermediate · 自动挡 · 5 座 · 5 门 · 空调 · 汽油"
+        "example": "Mitsubishi ASX",
+        "class": "中型 SUV · 自动挡 · 5 座"
       },
-      "unlimitedKilometers": null,
-      "price": {
-        "currency": "AUD",
-        "payAtCounter": null
-      },
-      "insurance": [
-        "保险条款待补充"
-      ],
       "pickup": {
         "date": "2026-09-24",
         "time": "09:00",
@@ -261,11 +251,10 @@
         "address": "160 Adelaide TCE, Perth, WA 6000",
         "timeZoneLabel": "珀斯当地时间",
         "vehicleReturnPoint": "160 Adelaide TCE, Perth, WA 6000",
-        "deadlineWarning": "订单还车时间为 10 月 3 日 09:00。原分享行程 10 月 2 日的租车行停靠已调整至 10 月 3 日。",
+        "deadlineWarning": "请于 10 月 3 日 09:00 前完成还车。",
         "recommendedArrivalTime": null,
         "utcOffset": "+08:00"
-      },
-      "notes": "准时到达，以免错失车辆。车行品牌、费用、保险和里程限制未在截图中显示，待补充。"
+      }
     },
     "rentalChecklist": [
       "9 月 24 日 09:00 准时到 Downtown 取车。",
@@ -325,7 +314,7 @@
           "id": "d2-s1",
           "time": "09:00",
           "type": "drive",
-          "text": "Downtown 取车 · Mitsubishi ASX 或相似车型",
+          "text": "Downtown 取车 · Mitsubishi ASX",
           "placeId": "rental"
         },
         {
@@ -642,7 +631,7 @@
           "id": "d10-s4",
           "time": "",
           "type": "note",
-          "text": "租车订单还车时间为明天 09:00，已从今日安排中移出。"
+          "text": "明天 09:00 前还车，今晚确认油量并整理车内物品。"
         }
       ]
     },
@@ -1012,7 +1001,6 @@
   "issuesAndUncertainties": [
     "年份按 2026 年生成，与资料日期及星期一致。",
     "住宿按用户要求暂不补充，保留分享行程已有名称。",
-    "租车品牌、费用、保险和里程限制待补充。",
     "浮潜、海豚活动与罗特内斯特岛船票的预订和具体时间待补充。",
     "地图使用真实西澳大利亚州界；地点按近似经纬度投影，路线为地点间连线，不代表实际道路导航。"
   ],
