@@ -6,6 +6,7 @@
   const MAGIC = "WADOC1";
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
+  const documentUrls = new Map();
   let vaultPassword = "";
 
   const GROUPS = [
@@ -223,6 +224,15 @@
     return decoder.decode(plaintext) === "west-australia-travel-documents";
   }
 
+  function shouldOpenInSameTab() {
+    const userAgent = navigator.userAgent || "";
+    const appleTouchDevice = /iPad|iPhone|iPod/.test(userAgent)
+      || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    return appleTouchDevice
+      || /Android/i.test(userAgent)
+      || window.matchMedia("(max-width: 700px)").matches;
+  }
+
   async function unlockVault(form) {
     const status = form.querySelector("[data-document-status]");
     const button = form.querySelector("button");
@@ -244,22 +254,29 @@
 
   async function openDocument(button) {
     const file = button.dataset.documentFile;
+    const readyUrl = documentUrls.get(file);
+    if (readyUrl) {
+      window.location.assign(readyUrl);
+      return;
+    }
+
     const name = button.dataset.documentName || "travel-document.pdf";
-    const preview = window.open("about:blank", "_blank");
+    const openInSameTab = shouldOpenInSameTab();
+    const preview = openInSameTab ? null : window.open("about:blank", "_blank");
     if (preview) preview.opener = null;
     button.disabled = true;
     button.textContent = "正在解密";
     try {
       const plaintext = await decryptPayload(await fetchEncrypted(file), vaultPassword);
-      const url = URL.createObjectURL(new Blob([plaintext], { type: "application/pdf" }));
-      if (preview) preview.location.replace(url);
-      else {
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = name;
-        link.click();
+      const url = URL.createObjectURL(new File([plaintext], name, { type: "application/pdf" }));
+      documentUrls.set(file, url);
+      if (preview) {
+        preview.location.replace(url);
+        button.textContent = "打开 PDF";
+      } else {
+        button.textContent = "点击查看 PDF";
+        button.focus();
       }
-      window.setTimeout(() => URL.revokeObjectURL(url), 120_000);
     } catch {
       if (preview) preview.close();
       button.textContent = "打开失败";
@@ -267,7 +284,6 @@
     } finally {
       button.disabled = false;
     }
-    button.textContent = "打开 PDF";
   }
 
   function init() {
